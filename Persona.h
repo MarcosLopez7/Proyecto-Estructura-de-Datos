@@ -7,10 +7,10 @@ public:
   Persona();
   Persona(int, int, int, int);
   ~Persona();
-  void setDinero();
-  void setEntrada();
-  void setSalida();
-  void setHambre();
+  void setDinero(int);
+  void setEntrada(int);
+  void setSalida(int);
+  void setHambre(int);
   
   int getDinero();
   int getEntrada();
