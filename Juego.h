@@ -13,28 +13,34 @@
 #include "Atraccion.h"
 
 class Juego:public Atraccion{
-    Cola<Persona> * colaVip;
-    Cola<Persona> * colaNormal;
-    Pila<Persona> * arriba;
+    Cola<Persona * > * colaVip;
+    Cola<Persona * > * colaNormal;
+    Pila<Persona * > * arriba;
+    int capacidad;
     
 public:
-    Juego(int tiempoI, int tiempoF, std::string nombre):Atraccion(tiempoI,tiempoF,nombre){
-        colaVip=new Cola<Persona>;
-        colaNormal= new Cola<Persona>;
-        arriba = new Pila<Persona>;
+    Juego(int tiempoI, int tiempoF, std::string nombre):Atraccion(tiempoI,tiempoF,nombre), capacidad(0){
+        colaVip=new Cola<Persona *>;
+        colaNormal= new Cola<Persona *>;
+        arriba = new Pila<Persona *>;
     }
     
-    Cola<Persona> * getColaVip () const{
+    Cola<Persona *> * getColaVip () const{
         return colaVip;
     }
-    Cola<Persona> * getColaNomal() const{
+    Cola<Persona *> * getColaNomal() const{
         return colaNormal;
     }
-    Pila<Persona> * getArriba () const{
+    Pila<Persona *> * getArriba () const{
         return arriba;
     }
     
-
+    void EntraColaVip (Persona * per);
+    Persona * SalColaVip ();
+    void EntraColaNormal (Persona * per);
+    Persona * SalColaNormal();
+    void EntraJuego(Persona * per);
+    Persona * SalJuego ();
 };
 
 
