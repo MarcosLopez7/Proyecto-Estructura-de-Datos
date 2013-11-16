@@ -3,16 +3,17 @@
 
 Persona::Persona(int t)
 {
-	int presupuestos [] = {1200, 1000, 800, 750, 500};
-	srand((int) time(NULL));
+	//srand((int) time(NULL));
+	int presupuestos[5] = { 1200, 1000, 800, 750, 500 };
 
-	dinero = presupuestos[rand() % 5];
+	int random = rand() % 5;
+	dinero = presupuestos[random];
 
-	int salidas [] = {1800, 2400, 3000, 3600, 4800};
+	int salidas [] = { 180, 240, 300, 360, 480 };
 	salida = salidas[rand() % 5] + t;
-	if (salida >= 12000)
+	if (salida >= 1200)
 	{
-		salida = 12000;
+		salida = 1200;
 	}
 
 	hambre = rand() % 30;
@@ -20,11 +21,12 @@ Persona::Persona(int t)
 
 Persona::Persona(int s, int h)
 {
-	int salida = s;
+	salida = s;
 	int presupuestos [] = { 1200, 1000, 800, 750, 500 };
-	srand((int) time(NULL));
+	//	srand((int) time(NULL));
 
-	dinero = presupuestos[rand() % 5];
+	dinero = (presupuestos[rand() % 5]);
+	//setDinero(presupuestos[rand() % 5]);
 	hambre = h;
 }
 
@@ -60,9 +62,17 @@ int Persona::getHambre()
 
 ostream & operator <<(ostream & os, Persona & p)
 {
-	os << "Hora de salida: " << p.salida << "| ";
-	os << "Dinero actual: " << p.dinero << " | ";
-	os << "Hambre actual" << p.hambre << "% |" ;
+	if (p.salida % 60 == 0)
+	{
+		os << "Hora de salida: " << p.salida / 60 << ":" << p.salida % 60 << "0| ";
+	}
+	else
+	{
+		os << "Hora de salida: " << p.salida / 60 << ":" << p.salida % 60 << "| ";
+	}
 
+	os << "Dinero actual: $" << p.dinero << " | ";
+	os << "Hambre actual: " << p.hambre << "% |";
+	os << endl;
 	return os;
 }

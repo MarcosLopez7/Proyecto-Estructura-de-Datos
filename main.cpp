@@ -1,10 +1,16 @@
+#include "Persona.h"
 #include <iostream>
-#include "Pila.h"
-#include "Cola.h"
 
 int main(int argc, const char * argv [])
 {
-  cout << "Esto es una prueba de que funcionaron los archivos\n";
-  //system("pause");
-  return 0;
+
+	for (int t = 600; t < 1200; t = t + 10)
+	{
+		Persona * personon = new Persona(t);
+		cout << *personon;
+		delete personon;
+	}
+
+	system("pause");
+	return 0;
 }
