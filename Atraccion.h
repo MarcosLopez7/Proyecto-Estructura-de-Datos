@@ -24,7 +24,7 @@ protected:
     std::string nombre;
     
 public:
-    Atraccion(Cola<Persona *> * colaGeneral, std::string nombre):tiempoF(0),tiempoI(0),nombre(nombre),colaGeneral(colaGeneral){
+    Atraccion(Cola<Persona *> * colaGeneral, std::string nombre):tiempoF(610),tiempoI(0),nombre(nombre),colaGeneral(colaGeneral){
     }
     
     void setTiempoI (int tiempo){

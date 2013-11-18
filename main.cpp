@@ -22,6 +22,9 @@ int main(int argc, const char * argv [])
     Juego * splash = new Juego (parque, 10,20,"Splash");
     Juego * kilauea = new Juego (parque, 10,26, "Kilauea");
     
+    menu();
+    /* impresión de prueba */
+    cout << *personaEspecial;
     
 	for (int t = 600; t < 1200; t = t + 10)
 	{
@@ -59,9 +62,106 @@ int main(int argc, const char * argv [])
             }
         }
         
+        /* Agregar personas bot a filas random */
+        int l = rand() % 30;
+        for (int i = 0; i<l; ++i) {
+            if (!parque->empty()){
+                int juegoSeleccionado = rand() % 12;
+                
+                switch (juegoSeleccionado) {
+                    case 0:
+                        batman->EntraColaNormal(parque->dequeue()->getInfo());
+                        break;
+                    case 1:
+                        batman->EntraColaVip(parque->dequeue()->getInfo());
+                        
+                        break;
+                    case 2:
+                        superman->EntraColaNormal(parque->dequeue()->getInfo());
+                        
+                        break;
+                    case 3:
+                        superman->EntraColaVip(parque->dequeue()->getInfo());
+                        
+                        break;
+                    case 4:
+                        boomerang->EntraColaNormal(parque->dequeue()->getInfo());
+                        
+                        break;
+                    case 5:
+                        boomerang->EntraColaVip(parque->dequeue()->getInfo());
+                        
+                        break;
+                    case 6:
+                        medusa->EntraColaNormal(parque->dequeue()->getInfo());
+                        
+                        break;
+                    case 7:
+                        medusa->EntraColaVip(parque->dequeue()->getInfo());
+                        
+                        break;
+                    case 8:
+                        splash->EntraColaNormal(parque->dequeue()->getInfo());
+                        
+                        break;
+                    case 9:
+                        splash->EntraColaVip(parque->dequeue()->getInfo());
+                        
+                        break;
+                    case 10:
+                        kilauea->EntraColaNormal(parque->dequeue()->getInfo());
+                        
+                        break;
+                    case 11:
+                        kilauea->EntraColaVip(parque->dequeue()->getInfo());
+                        
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
         
+       
+        /* Checar si es necesario mover las filas */
+        for (int i = 0; i<6; i++) {
+            switch (i) {
+                case 0:
+                    if (batman->getTiempoF() <= t) {
+                        batman->moverColas(t);
+                    }
+                    break;
+                case 1:
+                    if (superman->getTiempoF() <= t) {
+                        superman->moverColas(t);
+                    }
+                    break;
+                case 2:
+                    if (boomerang->getTiempoF() <= t) {
+                        boomerang->moverColas(t);
+                    }
+                    break;
+                case 3:
+                    if (medusa->getTiempoF() <= t) {
+                        medusa->moverColas(t);
+                    }
+                    break;
+                case 4:
+                    if (splash->getTiempoF() <= t) {
+                        splash->moverColas(t);
+                    }
+                    break;
+                case 5:
+                    if (kilauea->getTiempoF() <= t) {
+                        kilauea->moverColas(t);
+                    }
+                    break;
+                    
+                default:
+                    break;
+            }
+        }
         
-            
         
 
         for (int i = 0; i < 10; i++)
@@ -117,8 +217,7 @@ void menu (){
     cout << "Ingresa tu nombre: " << endl;
     string nombre;
     getline(cin,nombre);
-    cin.ignore('\n',12345);
-    cout << "Cuál es tu hora de llegada? \n Hint: \n1:05  = 0105\n14:39 = 1439" << endl;
+    cout << "Cuál es tu hora de llegada? \nHint: \n1:05  = 0105\n14:39 = 1439" << endl;
     int horaLlegada;
     cin >> horaLlegada;
     cout << "Cuanto tiempo vas a permanecer en el parque? (horas)" << endl;
