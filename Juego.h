@@ -17,13 +17,12 @@ class Juego:public Atraccion{
     Cola<Persona * > * colaNormal;
     Pila<Persona * > * arriba;
     int capacidad;
+    int duracion;
     
-public:
-    Juego(int tiempoI, int tiempoF, std::string nombre):Atraccion(tiempoI,tiempoF,nombre), capacidad(0){
-        colaVip=new Cola<Persona *>;
-        colaNormal= new Cola<Persona *>;
-        arriba = new Pila<Persona *>;
-    }
+    Persona * SalColaVip ();
+    Persona * SalColaNormal();
+    void EntraJuego(Persona * per);
+    Persona * SalJuego ();
     
     Cola<Persona *> * getColaVip () const{
         return colaVip;
@@ -34,13 +33,18 @@ public:
     Pila<Persona *> * getArriba () const{
         return arriba;
     }
+public:
+    Juego(Cola<Persona *> * colaGeneral,int duracion,int capacidad, std::string nombre):Atraccion(colaGeneral,nombre),duracion(duracion), capacidad(capacidad) {
+        colaVip=new Cola<Persona *>;
+        colaNormal= new Cola<Persona *>;
+        arriba = new Pila<Persona *>;
+        //capacidad = rand() % 2; // **opcion**
+        //duracion = rand() % 2; // **opcion**
+    }
     
     void EntraColaVip (Persona * per);
-    Persona * SalColaVip ();
     void EntraColaNormal (Persona * per);
-    Persona * SalColaNormal();
-    void EntraJuego(Persona * per);
-    Persona * SalJuego ();
+    void moverColas (int actualTime);
 };
 
 

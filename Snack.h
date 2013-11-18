@@ -21,7 +21,7 @@ class Snack:public Atraccion{
     int menu ();
     
 public:
-    Snack(int tiempoI, int tiempoF, std::string nombre):Atraccion(tiempoI,tiempoF,nombre),ganancia(0){}
+    Snack(Cola<Persona *> * colaGeneral, int tiempoI, int tiempoF, std::string nombre):Atraccion(colaGeneral, nombre),ganancia(0){}
     
     void hambreDinero(Persona * per);
     void hambreDineroRand(Persona * per);

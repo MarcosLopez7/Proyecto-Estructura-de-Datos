@@ -17,12 +17,14 @@
 
 
 class Atraccion{
+protected:
     int tiempoI;
     int tiempoF;
+    Cola<Persona *> * colaGeneral;
     std::string nombre;
     
 public:
-    Atraccion(int tiempoI, int tiempoF, std::string nombre):tiempoF(tiempoF),tiempoI(tiempoI),nombre(nombre){
+    Atraccion(Cola<Persona *> * colaGeneral, std::string nombre):tiempoF(0),tiempoI(0),nombre(nombre),colaGeneral(colaGeneral){
     }
     
     void setTiempoI (int tiempo){

@@ -31,3 +31,32 @@ void Juego::EntraJuego(Persona * per){
 Persona * Juego::SalJuego (){
     return arriba->pop()->getInfo();
 }
+
+void Juego::moverColas (int actualTime){
+    int cont = 0;
+    int vip = 0;
+    
+    while (!arriba->empty()) {
+        Persona * temp = SalJuego();
+        if (actualTime >= temp->getSalida() && temp->getNombre() != "")
+            delete temp;
+        else
+            colaGeneral->enqueue(new Nodo<Persona *> (temp));
+    }
+
+    while (cont != capacidad && !colaNormal->empty() && !colaVip->empty()) {
+        if (!colaVip->empty() && vip < 3){
+            EntraJuego(SalColaVip());
+            vip++;
+            cont++;
+        }
+        else if(!colaNormal->empty()){
+            EntraJuego(SalColaNormal());
+            cont++;
+        }
+    }
+    tiempoI = actualTime;
+    tiempoF = actualTime + duracion;
+}
+
+
