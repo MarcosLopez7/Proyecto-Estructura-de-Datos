@@ -57,6 +57,12 @@ void Juego::moverColas (int actualTime){
     }
     tiempoI = actualTime;
     tiempoF = actualTime + duracion;
+    calcularTiempo();
+}
+
+void Juego::calcularTiempo(){
+    esperaVip = (colaVip->size()/3.0) * duracion;
+    esperaNormal = ((colaNormal->size())/(capacidad-3))*duracion;
 }
 
 

@@ -18,6 +18,8 @@ class Juego:public Atraccion{
     Pila<Persona * > * arriba;
     int capacidad;
     int duracion;
+    int esperaVip;
+    int esperaNormal;
     
     Persona * SalColaVip ();
     Persona * SalColaNormal();
@@ -45,6 +47,14 @@ public:
     void EntraColaVip (Persona * per);
     void EntraColaNormal (Persona * per);
     void moverColas (int actualTime);
+    void calcularTiempo();
+    
+    int getEsperaNormal(){
+        return esperaNormal;
+    }
+    int getEsperaVip(){
+        return esperaVip;
+    }
 };
 
 
