@@ -25,6 +25,8 @@ class Juego:public Atraccion{
     Persona * SalColaNormal();
     void EntraJuego(Persona * per);
     Persona * SalJuego ();
+    void calcularTiempo();
+
     
     Cola<Persona *> * getColaVip () const{
         return colaVip;
@@ -47,7 +49,6 @@ public:
     void EntraColaVip (Persona * per);
     void EntraColaNormal (Persona * per);
     void moverColas (int actualTime);
-    void calcularTiempo();
     
     int getEsperaNormal(){
         return esperaNormal;

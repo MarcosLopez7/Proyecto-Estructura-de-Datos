@@ -15,12 +15,12 @@ int main(int argc, const char * argv [])
 
     Cola<Persona *> * parque = new Cola<Persona *>();
 
-	Juego * batman = new Juego(parque, 10, 30, "Batman");
-    Juego * superman = new Juego(parque, 20,40, "Superman");
-    Juego * boomerang = new Juego (parque, 10,20, "Boomerang");
-    Juego * medusa = new Juego (parque, 20,15, "Medusa");
+	Juego * batman = new Juego(parque, 5, 30, "Batman");
+    Juego * superman = new Juego(parque, 2,40, "Superman");
+    Juego * boomerang = new Juego (parque, 8,20, "Boomerang");
+    Juego * medusa = new Juego (parque, 5,15, "Medusa");
     Juego * splash = new Juego (parque, 10,20,"Splash");
-    Juego * kilauea = new Juego (parque, 10,26, "Kilauea");
+    Juego * kilauea = new Juego (parque, 3,26, "Kilauea");
     
     //menu();
     /* impresión de prueba */
