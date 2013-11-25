@@ -63,6 +63,7 @@ public:
 		aristas = value;
 	}
 
+	int numeroAristas(Vertice<V, A> *);
 	Arista<V, A> * ultimaArista();
 	void insertarArista(Arista<V, A> * a);
 
@@ -98,6 +99,22 @@ void Vertice<V, A>::insertarArista(Arista<V, A> * a)
 	}
 }
 
+template<class V,class A>
+int Vertice<V, A>::numeroAristas(Vertice<V, A> * v)
+{
+
+	Arista<V, A> * temp = aristas;
+	int cont = 0;
+
+	while (temp != NULL)
+	{
+		temp = temp->getNext();
+		cont++;
+	}
+
+	return cont;
+
+}
 
 template <typename V, typename A>
 std::ostream & operator <<(std::ostream & os, Vertice<V, A> & v)
