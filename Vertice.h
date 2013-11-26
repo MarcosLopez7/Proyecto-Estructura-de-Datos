@@ -7,6 +7,7 @@ template <typename V, typename A> std::ostream & operator <<(std::ostream & os, 
 template <class V, class A>
 class Vertice {
 	V info;
+	A info2;
 
 	Vertice<V, A> * siguiente;
 	Arista<V, A> * aristas;
@@ -15,7 +16,15 @@ public:
 	Vertice(V info)
 	{
 		this->info = info;
+		info2 = NULL;
 		siguiente = NULL;
+		aristas = NULL;
+	}
+
+	Vertice(V info, A info2)
+	{
+		this->info = info;
+		this->info2 = info2;
 		aristas = NULL;
 	}
 
@@ -36,6 +45,16 @@ public:
 	V getInfo()
 	{
 		return info;
+	}
+
+	A getInfo2()
+	{
+		return info2;
+	}
+
+	void setInfo2(A value)
+	{
+		info2 = value;
 	}
 
 	void setInfo(V value)
@@ -99,7 +118,7 @@ void Vertice<V, A>::insertarArista(Arista<V, A> * a)
 	}
 }
 
-template<class V,class A>
+template<class V, class A>
 int Vertice<V, A>::numeroAristas(Vertice<V, A> * v)
 {
 
@@ -119,7 +138,7 @@ int Vertice<V, A>::numeroAristas(Vertice<V, A> * v)
 template <typename V, typename A>
 std::ostream & operator <<(std::ostream & os, Vertice<V, A> & v)
 {
-	os << "VÃ©rtice: " << v.info << std::endl;
+	os << "Vértice: " << v.info << std::endl;
 
 	/* Imprimir las aristas que salen de v */
 
