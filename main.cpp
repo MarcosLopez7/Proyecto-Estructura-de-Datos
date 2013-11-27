@@ -11,6 +11,7 @@ void write_text_to_log_file(const std::string &text);
 void meterAJuego(int);
 void mandarPersona(Persona *);
 void mandarPersonaDependiendo(Persona *, Juego *);
+void salDelJuegoYHasEsto(int);
 
 Persona * personaEspecial;
 ListaEnlazada<Vertice<Persona *, Juego *> *> * congelamiento = new ListaEnlazada<Vertice<Persona *, Juego *> *>();
@@ -45,8 +46,6 @@ int main(int argc, const char * argv [])
 {
 
 	//Cola<Persona *> * parque = new Cola<Persona *>();
-
-
 
 	caminos->insertarVertice(v1);
 	caminos->insertarVertice(v2);
@@ -90,12 +89,13 @@ int main(int argc, const char * argv [])
 	caminos->insertarArista(v2, v6, 2); // batman a splash
 
 	//menu();
-	/* impresión de prueba */
+	/* impresiÃ³n de prueba */
 	//cout << *personaEspecial;
 
 	for (int t = 600; t < 1200; t = t++)
 	{
 
+		/* Este for es el que manda en lo que estan en camino en un juego los manda ya directo al juego*/
 		for (int i = 0; i < congelamiento->size(); i++)
 		{
 			congelamiento->elementAt(i)->getInfo()->getInfo()->setCongelamiento(congelamiento->elementAt(i)->getInfo()->getInfo()->getCongelamiento() - 1);
@@ -181,9 +181,10 @@ int main(int argc, const char * argv [])
 			}
 		}// ESTE ES EL FOR QUE REALMENTE MANDA LOS BOTS A SU POSICION
 
+		/* Este es el if en que cada 10 minutos llega la gente y los mete al camino dependiendo de donde les toque la proxima atraccion*/
 		if ((t%10) == 0)
 		{
-			/* Impresión hora */
+			/* ImpresiÃ³n hora */
 			cout << "Son las: " << t / 60 << ":";
 			if (t % 60 == 0)
 				cout << "00" << endl;
@@ -227,37 +228,16 @@ int main(int argc, const char * argv [])
 				}
 			}
 
+
+
 		
-		}// cierre del if que pone los bots en una atracción después de llegar al parque
+		}// cierre del if que pone los bots en una atracciÃ³n despuÃ©s de llegar al parque
 
-		/* Creación de personas BOT */
+		/*Este for lo que hace es sacar las personas de los juegos */
 		
-
-		/* Agregar personas bot a filas random */
-		
-
-
-		/* Checar si es necesario mover las filas y tiempo de espera */
-		for (int i = 0; i < 8; i++) 
+		for (int i = 0; i < 9; i++) 
 		{
-			
-			switch (i)
-			{
-			case 0:
-				{
-					if (!batman->getActivado())
-					{
-						while (!batman->getArriba()->empty())
-						{
-							mandarPersonaDependiendo(batman->getArriba()->pop()->getInfo(), batman);
-						}
-					}
-				}
-				break;
-			default:
-				break;
-			}
-			
+			salDelJuegoYHasEsto(i);
 		}
 		
 
@@ -270,6 +250,12 @@ int main(int argc, const char * argv [])
 	delete medusa;
 	delete splash;
 	delete kilauea;
+	delete entrada;
+	delete snack;
+	delete huracan;
+	delete goKart;
+	delete vudu;
+	delete caminos;
 
 	system("pause");
 	return 0;
@@ -280,14 +266,14 @@ void menu(){
 	cout << "Ingresa tu nombre: " << endl;
 	string nombre;
 	getline(cin, nombre);
-	cout << "Cuál es tu hora de llegada? \nHint: \n1:05  = 0105\n14:39 = 1439" << endl;
+	cout << "CuÃ¡l es tu hora de llegada? \nHint: \n1:05  = 0105\n14:39 = 1439" << endl;
 	int horaLlegada;
 	cin >> horaLlegada;
 	cout << "Cuanto tiempo vas a permanecer en el parque? (horas)" << endl;
 	int tiempoPermanencia;
 	cin >> tiempoPermanencia;
 	tiempoPermanencia = tiempoPermanencia * 60;
-	cout << "Cuál es tu presupuesto?" << endl;
+	cout << "CuÃ¡l es tu presupuesto?" << endl;
 	int presupuesto;
 	cin >> presupuesto;
 	personaEspecial = new Persona(convierteHora(horaLlegada) + tiempoPermanencia, presupuesto, nombre);
@@ -303,7 +289,7 @@ int convierteHora(int hora){
 	return horaArreglada;
 }
 
-/* Nada probado lo encontré en internet de como hacer un log file */
+/* Nada probado lo encontrÃ© en internet de como hacer un log file */
 void write_text_to_log_file(const std::string &text)
 {
 	std::ofstream log_file("log_file.txt", std::ios_base::out | std::ios_base::app);
@@ -401,7 +387,7 @@ void mandarPersonaDependiendo(Persona * persona, Juego * j)
 		{
 			if (j != batman)
 			{
-				persona->setCongelamiento(caminos->dijkstra(v1, caminos->busquedaVertice(batman)));
+				persona->setCongelamiento(caminos->dijkstra(caminos->busquedaVertice(j),caminos->busquedaVertice(batman)));
 				Vertice<Persona *, Juego *> * vertice = new Vertice<Persona *, Juego *>(persona, batman);
 				Nodo<Vertice<Persona *, Juego *> *> * nodulon = new Nodo<Vertice<Persona *, Juego *> *>(vertice);
 				congelamiento->insertFront(nodulon);
@@ -414,7 +400,7 @@ void mandarPersonaDependiendo(Persona * persona, Juego * j)
 		{
 			if (j != superman)
 			{
-				persona->setCongelamiento(caminos->dijkstra(v1, caminos->busquedaVertice(superman)));
+				persona->setCongelamiento(caminos->dijkstra(caminos->busquedaVertice(j), caminos->busquedaVertice(superman)));
 				Vertice<Persona *, Juego *> * vertice = new Vertice<Persona *, Juego *>(persona, superman);
 				Nodo<Vertice<Persona *, Juego *> *> * nodulon = new Nodo<Vertice<Persona *, Juego *> *>(vertice);
 				congelamiento->insertFront(nodulon);
@@ -427,7 +413,7 @@ void mandarPersonaDependiendo(Persona * persona, Juego * j)
 		{
 			if (j != boomerang)
 			{
-				persona->setCongelamiento(caminos->dijkstra(v1, caminos->busquedaVertice(boomerang)));
+				persona->setCongelamiento(caminos->dijkstra(caminos->busquedaVertice(j), caminos->busquedaVertice(boomerang)));
 				Vertice<Persona *, Juego *> * vertice = new Vertice<Persona *, Juego *>(persona, boomerang);
 				Nodo<Vertice<Persona *, Juego *> *> * nodulon = new Nodo<Vertice<Persona *, Juego *> *>(vertice);
 				congelamiento->insertFront(nodulon);
@@ -440,7 +426,7 @@ void mandarPersonaDependiendo(Persona * persona, Juego * j)
 		{
 			if (j != medusa)
 			{
-				persona->setCongelamiento(caminos->dijkstra(v1, caminos->busquedaVertice(medusa)));
+				persona->setCongelamiento(caminos->dijkstra(caminos->busquedaVertice(j), caminos->busquedaVertice(medusa)));
 				Vertice<Persona *, Juego *> * vertice = new Vertice<Persona *, Juego *>(persona, medusa);
 				Nodo<Vertice<Persona *, Juego *> *> * nodulon = new Nodo<Vertice<Persona *, Juego *> *>(vertice);
 				congelamiento->insertFront(nodulon);
@@ -453,7 +439,7 @@ void mandarPersonaDependiendo(Persona * persona, Juego * j)
 		{
 			if (j != splash)
 			{
-				persona->setCongelamiento(caminos->dijkstra(v1, caminos->busquedaVertice(splash)));
+				persona->setCongelamiento(caminos->dijkstra(caminos->busquedaVertice(j), caminos->busquedaVertice(splash)));
 				Vertice<Persona *, Juego *> * vertice = new Vertice<Persona *, Juego *>(persona, splash);
 				Nodo<Vertice<Persona *, Juego *> *> * nodulon = new Nodo<Vertice<Persona *, Juego *> *>(vertice);
 				congelamiento->insertFront(nodulon);
@@ -466,7 +452,7 @@ void mandarPersonaDependiendo(Persona * persona, Juego * j)
 		{
 			if (j != kilauea)
 			{
-				persona->setCongelamiento(caminos->dijkstra(v1, caminos->busquedaVertice(kilauea)));
+				persona->setCongelamiento(caminos->dijkstra(caminos->busquedaVertice(j), caminos->busquedaVertice(kilauea)));
 				Vertice<Persona *, Juego *> * vertice = new Vertice<Persona *, Juego *>(persona, kilauea);
 				Nodo<Vertice<Persona *, Juego *> *> * nodulon = new Nodo<Vertice<Persona *, Juego *> *>(vertice);
 				congelamiento->insertFront(nodulon);
@@ -479,7 +465,7 @@ void mandarPersonaDependiendo(Persona * persona, Juego * j)
 		{
 			if (j != huracan)
 			{
-				persona->setCongelamiento(caminos->dijkstra(v1, caminos->busquedaVertice(huracan)));
+				persona->setCongelamiento(caminos->dijkstra(caminos->busquedaVertice(j), caminos->busquedaVertice(huracan)));
 				Vertice<Persona *, Juego *> * vertice = new Vertice<Persona *, Juego *>(persona, huracan);
 				Nodo<Vertice<Persona *, Juego *> *> * nodulon = new Nodo<Vertice<Persona *, Juego *> *>(vertice);
 				congelamiento->insertFront(nodulon);
@@ -492,7 +478,7 @@ void mandarPersonaDependiendo(Persona * persona, Juego * j)
 		{
 			if (j != goKart)
 			{
-				persona->setCongelamiento(caminos->dijkstra(v1, caminos->busquedaVertice(goKart)));
+				persona->setCongelamiento(caminos->dijkstra(caminos->busquedaVertice(j), caminos->busquedaVertice(goKart)));
 				Vertice<Persona *, Juego *> * vertice = new Vertice<Persona *, Juego *>(persona, goKart);
 				Nodo<Vertice<Persona *, Juego *> *> * nodulon = new Nodo<Vertice<Persona *, Juego *> *>(vertice);
 				congelamiento->insertFront(nodulon);
@@ -505,7 +491,7 @@ void mandarPersonaDependiendo(Persona * persona, Juego * j)
 		{
 			if (j != vudu)
 			{
-				persona->setCongelamiento(caminos->dijkstra(v1, caminos->busquedaVertice(vudu)));
+				persona->setCongelamiento(caminos->dijkstra(caminos->busquedaVertice(j), caminos->busquedaVertice(vudu)));
 				Vertice<Persona *, Juego *> * vertice = new Vertice<Persona *, Juego *>(persona, vudu);
 				Nodo<Vertice<Persona *, Juego *> *> * nodulon = new Nodo<Vertice<Persona *, Juego *> *>(vertice);
 				congelamiento->insertFront(nodulon);
@@ -518,6 +504,141 @@ void mandarPersonaDependiendo(Persona * persona, Juego * j)
 		break;
 	}
 
+}
+
+void salDelJuegoYHasEsto(int i)
+{
+	switch (i)
+	{
+	case 0:
+		{
+			if (!batman->getActivado())
+			{
+				while (!batman->getArriba()->empty())
+				{
+					mandarPersonaDependiendo(batman->getArriba()->pop()->getInfo(), batman);
+				}
+				batman->moverColas();
+			}
+			else
+				batman->setTiempo(batman->getTiempo()-1);
+		}
+		break;
+	case 1:
+		{
+			if (!superman->getActivado())
+			{
+				while (!superman->getArriba()->empty())
+				{
+					mandarPersonaDependiendo(superman->getArriba()->pop()->getInfo(), superman);
+				}
+				superman->moverColas();
+			}
+			else
+				superman->setTiempo(batman->getTiempo() - 1);
+		}
+		break;
+	case 2:
+		{
+			if (!boomerang->getActivado())
+			{
+				while (!boomerang->getArriba()->empty())
+				{
+					mandarPersonaDependiendo(boomerang->getArriba()->pop()->getInfo(), boomerang);
+				}
+				boomerang->moverColas();
+			}
+			else
+				boomerang->setTiempo(boomerang->getTiempo() - 1);
+		}
+		break;
+	case 3:
+		{
+			if (!medusa->getActivado())
+			{
+				while (!medusa->getArriba()->empty())
+				{
+					mandarPersonaDependiendo(medusa->getArriba()->pop()->getInfo(), medusa);
+				}
+				medusa->moverColas();
+			}
+			else
+				medusa->setTiempo(medusa->getTiempo() - 1);
+		}
+		break;
+	case 4:
+		{
+			if (!splash->getActivado())
+			{
+				while (!splash->getArriba()->empty())
+				{
+					mandarPersonaDependiendo(splash->getArriba()->pop()->getInfo(), splash);
+				}
+				splash->moverColas();
+			}
+			else
+				splash->setTiempo(splash->getTiempo() - 1);
+		}
+		break;
+	case 5:
+		{
+			if (!kilauea->getActivado())
+			{
+				while (!kilauea->getArriba()->empty())
+				{
+					mandarPersonaDependiendo(kilauea->getArriba()->pop()->getInfo(), kilauea);
+				}
+				kilauea->moverColas();
+			}
+			else
+				kilauea->setTiempo(kilauea->getTiempo() - 1);
+		}
+		break;
+	case 6:
+		{
+			if (!huracan->getActivado())
+			{
+				while (!huracan->getArriba()->empty())
+				{
+					mandarPersonaDependiendo(huracan->getArriba()->pop()->getInfo(), huracan);
+				}
+				huracan->moverColas();
+			}
+			else
+				huracan->setTiempo(huracan->getTiempo() - 1);
+		}
+		break;
+	case 7:
+		{
+			if (!goKart->getActivado())
+			{
+				while (!goKart->getArriba()->empty())
+				{
+					mandarPersonaDependiendo(goKart->getArriba()->pop()->getInfo(), goKart);
+				}
+				goKart->moverColas();
+			}
+			else
+				goKart->setTiempo(goKart->getTiempo() - 1);
+		}
+		break;
+	case 8:
+		{
+			if (!vudu->getActivado())
+			{
+				while (!vudu->getArriba()->empty())
+				{
+					mandarPersonaDependiendo(vudu->getArriba()->pop()->getInfo(), vudu);
+				}
+				vudu->moverColas();
+			}
+			else
+				vudu->setTiempo(vudu->getTiempo() - 1);
+		}
+		break;
+	default:
+		break;
+	}
 }
 
 void meterAJuego(int t)
