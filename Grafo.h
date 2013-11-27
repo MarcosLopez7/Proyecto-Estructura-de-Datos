@@ -39,7 +39,7 @@ public:
 	void insertarArista(Vertice<V, A> * o, Vertice<V, A> * d, A peso);
 	int salidas(Vertice<V, A> *);
 	int entradas(Vertice<V, A> *);
-	void busquedaVertice(Vertice<V, A> *);
+	Vertice<V, A> * busquedaVertice(V);
 	void busquedaArista(Arista<V, A> *);
 	void eliminarArista(A);
 	void eliminarVertice(Vertice<V, A> *);
@@ -237,11 +237,16 @@ void Grafo<V, A>::eliminarVertice(Vertice<V, A> * v)
 }
 
 template<class V, class A>
-void Grafo<V, A>::busquedaVertice(Vertice<V, A> * v)
+Vertice<V, A> * Grafo<V, A>::busquedaVertice(V info)
 {
+	Vertice<V, A> * temp = inicio;
 
+	while (temp->getInfo() != info)
+	{
+		temp = temp->getNext();
+	}
 
-
+	return temp;
 }
 
 template<class V, class A>

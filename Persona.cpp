@@ -17,22 +17,35 @@ Persona::Persona(int t)
 	}
 
 	hambre = rand() % 30;
-    nombre = "";
+	nombre = "";
+
+	congelamiento = 0;
+	/*proximaAtraccion = NULL;
+	atraccionActual = NULL;*/
 }
 
 Persona::Persona(int s, int h)
 {
 	salida = s;
 	int presupuestos [] = { 1200, 1000, 800, 750, 500 };
-	//	srand((int) time(NULL));
+	//        srand((int) time(NULL));
 
 	dinero = (presupuestos[rand() % 5]);
 	//setDinero(presupuestos[rand() % 5]);
 	hambre = h;
-    nombre = "";
+	nombre = "";
+
+	/*proximaAtraccion = NULL;
+	atraccionActual = NULL;*/
+	congelamiento = 0;
+	
 }
 
-Persona::Persona(int salida,int presupuesto, std::string nombre):salida(salida),dinero(presupuesto),nombre(nombre),hambre(20){
+Persona::Persona(int salida, int presupuesto, std::string nombre) : salida(salida), dinero(presupuesto), nombre(nombre), hambre(20)
+{
+	congelamiento = 0;
+	/*proximaAtraccion = NULL;
+	atraccionActual = NULL;*/
 }
 
 //Persona::~Persona(){}
@@ -52,6 +65,31 @@ void Persona::setHambre(int h)
 	hambre = h;
 }
 
+void Persona::setCongelamiento(int c)
+{
+	congelamiento = c;
+}
+
+//void Persona::setProximaAtraccion(Atraccion * p)
+//{
+//	proximaAtraccion = p;
+//}
+//
+//void Persona::setAtraccionActual(Atraccion * a)
+//{
+//	atraccionActual = a;
+//}
+
+int Persona::getCongelamiento()
+{
+	return congelamiento;
+}
+
+//Atraccion * Persona::getProximaAtraccion()
+//{
+//	return proximaAtraccion;
+//}
+
 int Persona::getDinero()
 {
 	return dinero;
@@ -65,15 +103,20 @@ int Persona::getHambre()
 	return hambre;
 }
 std::string Persona::getNombre(){
-    return nombre;
+	return nombre;
 }
+
+//Atraccion * Persona::getAtraccionActual()
+//{
+//	return atraccionActual;
+//}
 
 ostream & operator <<(ostream & os, Persona & p)
 {
 	if (p.nombre != "") {
-        os << "Nombre: " << p.nombre << endl;
-    }
-    if (p.salida % 60 == 0)
+		os << "Nombre: " << p.nombre << endl;
+	}
+	if (p.salida % 60 == 0)
 	{
 		os << "Hora de salida: " << p.salida / 60 << ":" << "00| ";
 	}
@@ -84,7 +127,7 @@ ostream & operator <<(ostream & os, Persona & p)
 
 	os << "Dinero actual: $" << p.dinero << " | ";
 	os << "Hambre actual: " << p.hambre << "% |";
-    
+
 	os << endl;
 	return os;
 }

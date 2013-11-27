@@ -2,8 +2,8 @@
 //  Atraccion.h
 //  Proyecto Final Cubells
 //
-//  Created by C√©sar Mill√°n on 11/11/13.
-//  Copyright (c) 2013 C√©sar Mill√°n. All rights reserved.
+//  Created by CÈsar Mill·n on 11/11/13.
+//  Copyright (c) 2013 CÈsar Mill·n. All rights reserved.
 //
 
 #ifndef __Proyecto_Final_Cubells__Atraccion__
@@ -11,45 +11,40 @@
 
 #include <iostream>
 #include <string>
-#include "Pila.h"
-#include "Cola.h"
 #include "Persona.h"
+#include "Cola.h"
+#include "Pila.h"
 
 
 class Atraccion{
 protected:
-    int tiempoI;
-    int tiempoF;
-    Cola<Persona *> * colaGeneral;
-    std::string nombre;
-    
+	
+	std::string nombre;
+	Cola<Persona *> * colaDeTraslado;
+
 public:
-    Atraccion(Cola<Persona *> * colaGeneral, std::string nombre):tiempoF(610),tiempoI(0),nombre(nombre),colaGeneral(colaGeneral){
-    }
-    
-    void setTiempoI (int tiempo){
-        tiempoI = tiempo;
-    }
-    
-    int getTiempoI () const{
-        return tiempoI;
-    }
-    
-    void setTiempoF (int tiempo){
-        tiempoF=tiempo;
-    }
-    
-    int getTiempoF () const{
-        return tiempoF;
-    }
-    
-    std::string getNombre() const{
-        return nombre;
-    }
-    
-    void setNombre (std::string nombre){
-        this->nombre = nombre;
-    }
+	Atraccion (std::string nombre) : nombre(nombre)
+	{
+		colaDeTraslado = new Cola<Persona *>();
+	}
+
+	std::string getNombre() const{
+		return nombre;
+	}
+
+	void setNombre(std::string nombre){
+		this->nombre = nombre;
+	}
+
+	Cola<Persona *> * getColaDeTraslado()
+	{
+		return colaDeTraslado;
+	}
+
+	void setColaDeTraslado(Cola<Persona *> * value)
+	{
+		colaDeTraslado = value;
+	}
 };
 
 #endif /* defined(__Proyecto_Final_Cubells__Atraccion__) */

@@ -2,67 +2,95 @@
 //  Juego.cpp
 //  Proyecto Final Cubells
 //
-//  Created by CÃ©sar MillÃ¡n on 11/11/13.
-//  Copyright (c) 2013 CÃ©sar MillÃ¡n. All rights reserved.
+//  Created by César Millán on 11/11/13.
+//  Copyright (c) 2013 César Millán. All rights reserved.
 //
 
 #include "Juego.h"
 
-void Juego::EntraColaVip (Persona * per){
-    colaVip->enqueue(new Nodo<Persona *>(per));
+void Juego::EntraColaVip(Persona * per){
+	colaVip->enqueue(new Nodo<Persona *>(per));
 }
 
-Persona * Juego::SalColaVip (){
-    return colaVip->dequeue()->getInfo();
+Persona * Juego::SalColaVip(){
+	return colaVip->dequeue()->getInfo();
 }
 
-void Juego::EntraColaNormal (Persona * per){
-    colaNormal->enqueue(new Nodo<Persona *>(per));
+void Juego::EntraColaNormal(Persona * per){
+	colaNormal->enqueue(new Nodo<Persona *>(per));
 }
 
 Persona * Juego::SalColaNormal(){
-    return colaNormal->dequeue()->getInfo();
+	return colaNormal->dequeue()->getInfo();
 }
 
 void Juego::EntraJuego(Persona * per){
-    arriba->push(new Nodo<Persona *>(per));
+	arriba->push(new Nodo<Persona *>(per));
 }
 
-Persona * Juego::SalJuego (){
-    return arriba->pop()->getInfo();
+Persona * Juego::SalJuego(){
+	return arriba->pop()->getInfo();
 }
 
-void Juego::moverColas (int actualTime){
-    int cont = 0;
-    int vip = 0;
-    
-    while (!arriba->empty()) {
-        Persona * temp = SalJuego();
-        if (actualTime >= temp->getSalida() && temp->getNombre() != "")
-            delete temp;
-        else
-            colaGeneral->enqueue(new Nodo<Persona *> (temp));
-    }
-
-    while (cont != capacidad && !colaNormal->empty() && !colaVip->empty()) {
-        if (!colaVip->empty() && vip < 3){
-            EntraJuego(SalColaVip());
-            vip++;
-            cont++;
-        }
-        else if(!colaNormal->empty()){
-            EntraJuego(SalColaNormal());
-            cont++;
-        }
-    }
-    tiempoI = actualTime;
-    tiempoF = actualTime + duracion;
-    calcularTiempo();
+bool Juego::getActivado()
+{
+	return activado;
 }
+
+void Juego::setActivado(bool a)
+{
+	activado = a;
+}
+
+int Juego::getTiempo()
+{
+	return tiempo;
+}
+
+void Juego::setTiempo(int t)
+{
+	tiempo = t;
+	if (tiempo = 0)
+		activado = false;
+}
+
+void Juego::moverColas()
+{
+	int i = 0;
+	while (!colaVip->empty() && i < 3)
+	{
+		EntraJuego(SalColaVip());
+	}
+
+	while (!colaNormal->empty() && i < capacidad - 3)
+	{
+		EntraJuego(SalColaNormal());
+	}
+
+	activado = true;
+}
+
 
 void Juego::calcularTiempo(){
-    esperaVip = (colaVip->size()/3.0) * duracion;
-    esperaNormal = ((colaNormal->size())/(capacidad-3))*duracion;
+	esperaVip = (colaVip->size() / 3.0) * duracion;
+	esperaNormal = ((colaNormal->size()) / (capacidad - 3))*duracion;
 }
 
-
+bool Juego::transicion(Persona * p)
+{
+	if (p->getCongelamiento() == 0)
+	{
+		int lol = rand() % 9;
+		if (3 > lol)
+		{
+			EntraColaVip(p);
+		}
+		else
+		{
+			EntraColaNormal(p);
+		}
+		return true;
+	}
+	else
+		return false;
+}
