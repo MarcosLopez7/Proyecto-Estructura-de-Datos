@@ -1,9 +1,9 @@
 #include <iostream>
 #include "Arista.h"
 #include "Lista.h"
-#include <stdio.h>
+//#include <stdio.h>
 #include <vector>
-#include <queue>
+//#include <queue>
 
 using namespace std;
 
@@ -46,10 +46,10 @@ public:
 	Vertice<V, A> * elementAt(int);
 	void ordena();
 
-	/*método de dijkstra*/
+	/*mÃ©todo de dijkstra*/
 	void iniciar();
 	int posicionDelNodo(Vertice<V, A> *);
-	int dijkstra(Vertice<V, A> *, Vertice<V, A> *);
+	vector<int>  dijkstra(Vertice<V, A> *, Vertice<V, A> *);
 	//vector<int> dijkstra(Vertice<V, A> *);
 	void relajacion(int, int, Vertice<V, A> *, Vertice<V, A> *, int);
 	void imprimir(int);
@@ -76,7 +76,7 @@ template <typename V, typename A>
 std::ostream & operator <<(std::ostream & os, Grafo<V, A> & g)
 {
 
-	/* Imprimir los vértices */
+	/* Imprimir los vÃ©rtices */
 
 	Vertice<V, A> * temp = g.inicio;
 
@@ -306,8 +306,10 @@ Vertice<V, A> * Grafo<V, A>::elementAt(int i)
 template<class V, class A>
 void Grafo<V, A>::iniciar()
 {
-	//cout << "Aqui funciona \n";
-	for (int i = 0; i <= cantidadNodo; i++)
+	distancia.clear();
+	visitados.clear();
+	previo.clear();
+	for (int i = 0; i < cantidadNodo; i++)
 	{
 		//	cout << "Aqui funciona \n";
 		distancia.push_back(10000);
@@ -334,7 +336,7 @@ void Grafo<V, A>::relajacion(int actual, int adyacencia, Vertice<V, A> * ac, Ver
 }
 
 template<class V, class A>
-int Grafo<V, A>::dijkstra(Vertice<V, A> * i, Vertice<V, A> * d)
+vector<int>  Grafo<V, A>::dijkstra(Vertice<V, A> * i, Vertice<V, A> * d)
 {
 	//	cout << "Aqui funciona \n";
 	iniciar();
@@ -380,7 +382,7 @@ int Grafo<V, A>::dijkstra(Vertice<V, A> * i, Vertice<V, A> * d)
 
 
 	//imprimir(posicionDelNodo(d));
-	return distancia[posicionDelNodo(d)];
+	return distancia;
 	//imprimir(posicionDelNodo(d));
 }
 
