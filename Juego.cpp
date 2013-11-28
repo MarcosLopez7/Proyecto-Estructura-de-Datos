@@ -2,8 +2,8 @@
 //  Juego.cpp
 //  Proyecto Final Cubells
 //
-//  Created by César Millán on 11/11/13.
-//  Copyright (c) 2013 César Millán. All rights reserved.
+//  Created by CÃ©sar MillÃ¡n on 11/11/13.
+//  Copyright (c) 2013 CÃ©sar MillÃ¡n. All rights reserved.
 //
 
 #include "Juego.h"
@@ -50,13 +50,15 @@ int Juego::getTiempo()
 void Juego::setTiempo(int t)
 {
 	tiempo = t;
-	if (tiempo = 0)
+	if (tiempo == 0)
 		activado = false;
 }
 
 void Juego::moverColas()
 {
 	int i = 0;
+	activado = true;
+	tiempo = duracion;
 	while (!colaVip->empty() && i < 3)
 	{
 		EntraJuego(SalColaVip());
@@ -67,7 +69,7 @@ void Juego::moverColas()
 		EntraJuego(SalColaNormal());
 	}
 
-	activado = true;
+	//activado = true;
 }
 
 
