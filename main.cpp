@@ -1,4 +1,5 @@
 #include <iostream>
+#include <ctime>
 #include <fstream>
 #include "Atraccion.h"
 #include "Juego.h"
@@ -41,10 +42,25 @@ Vertice<Atraccion *, int> * v9 = new Vertice<Atraccion *, int>(goKart);
 Vertice<Atraccion *, int> * v10 = new Vertice<Atraccion *, int>(vudu);
 Vertice<Atraccion *, int> * v11 = new Vertice<Atraccion *, int>(snack);
 
+vector<int> distancia1;
+vector<int> distancia2;
+vector<int> distancia3;
+vector<int> distancia4;
+vector<int> distancia5;
+vector<int> distancia6;
+vector<int> distancia7;
+vector<int> distancia8;
+vector<int> distancia9;
+vector<int> distancia10;
+vector<int> distancia11;
+
+vector<vector<int>> distancias;
+
 
 int main(int argc, const char * argv [])
 {
 
+	int total = 0;
 	//Cola<Persona *> * parque = new Cola<Persona *>();
 
 	caminos->insertarVertice(v1);
@@ -92,17 +108,63 @@ int main(int argc, const char * argv [])
 	/* impresión de prueba */
 	//cout << *personaEspecial;
 
-	for (int t = 600; t < 1200; t = t++)
+	distancia1 = caminos->dijkstra(v1, v8);
+	distancia2 = caminos->dijkstra(v2, v8);
+	distancia3 = caminos->dijkstra(v3, v8);
+	distancia4 = caminos->dijkstra(v4, v8);
+	distancia5 = caminos->dijkstra(v5, v8);
+	distancia6 = caminos->dijkstra(v6, v8);
+	distancia7 = caminos->dijkstra(v7, v8);
+	distancia8 = caminos->dijkstra(v8, v8);
+	distancia9 = caminos->dijkstra(v9, v8);
+	distancia10 = caminos->dijkstra(v10, v8);
+	distancia11 = caminos->dijkstra(v11, v8);
+
+	/*for (int i = 0; i < distancia2.size(); i++)
+		cout << distancia2[i] << endl;*/
+
+	distancias.push_back(distancia1);
+	distancias.push_back(distancia2);
+	distancias.push_back(distancia3);
+	distancias.push_back(distancia4);
+	distancias.push_back(distancia5);
+	distancias.push_back(distancia6);
+	distancias.push_back(distancia7);
+	distancias.push_back(distancia8);
+	distancias.push_back(distancia9);
+	distancias.push_back(distancia10);
+	distancias.push_back(distancia11);
+
+	/*for (int i = 0; i < distancias.size(); i++)
 	{
+		for (int j = 0; j < distancias[i].size(); j++)
+		{
+			cout << distancias[i][j] << " ";
+		}
+		cout << endl;
+	}*/
+
+	srand((int) time(NULL));
+
+	for (int t = 600; t <= 1200; t++)
+	{
+	//	cout << distancia1[1] << endl;
+
+		cout << superman->getColaNomal()->size() << endl;
+		cout << superman->getColaVip()->size() << endl;
+	//	cout << congelamiento->size() << endl;
 
 		/* Este for es el que manda en lo que estan en camino en un juego los manda ya directo al juego*/
 		for (int i = 0; i < congelamiento->size(); i++)
 		{
 			congelamiento->elementAt(i)->getInfo()->getInfo()->setCongelamiento(congelamiento->elementAt(i)->getInfo()->getInfo()->getCongelamiento() - 1);
+			
 			if (batman == congelamiento->elementAt(i)->getInfo()->getInfo2())
 			{
+				
 				if (batman->transicion(congelamiento->elementAt(i)->getInfo()->getInfo()))
 				{
+				//	cout << "PRUEBA \n";
 					congelamiento->deleteAt(i);
 					i--;
 				}
@@ -193,7 +255,9 @@ int main(int argc, const char * argv [])
 
 			if (t < 660)
 			{
-				int n = (rand() % 100);
+				int n = (rand() % 20);
+				//cout << n << endl;
+				total += n;
 				for (int i = 0; i < n; i++)
 				{
 					Persona * persona = new Persona(t);
@@ -202,7 +266,9 @@ int main(int argc, const char * argv [])
 			}
 			if (t >= 660 && t < 720)
 			{
-				int n = rand() % 250;
+				int n = rand() % 25;
+				//cout << n << endl;
+				total += n;
 				for (int i = 0; i < n; i++)
 				{
 					Persona * persona = new Persona(t);
@@ -211,7 +277,9 @@ int main(int argc, const char * argv [])
 			}
 			if (t >= 720 && t < 840)
 			{
-				int n = rand() % 400;
+				int n = rand() % 40;
+				//cout << n << endl;
+				total += n;
 				for (int i = 0; i < n; i++)
 				{
 					Persona * persona = new Persona(t);
@@ -220,7 +288,9 @@ int main(int argc, const char * argv [])
 			}
 			if (t >= 840 && t <= 960)
 			{
-				int n = rand() % 50;
+				int n = rand() % 5;
+				//cout << n << endl;
+				total += n;
 				for (int i = 0; i < n; i++)
 				{
 					Persona * persona = new Persona(t);
@@ -228,11 +298,13 @@ int main(int argc, const char * argv [])
 				}
 			}
 
-
+			
 
 		
 		}// cierre del if que pone los bots en una atracción después de llegar al parque
 
+
+		//cout << total << endl;
 		/*Este for lo que hace es sacar las personas de los juegos */
 		
 		for (int i = 0; i < 9; i++) 
@@ -242,6 +314,8 @@ int main(int argc, const char * argv [])
 		
 
 	}
+
+	
 
 	//delete parque;
 	delete batman;
@@ -290,6 +364,7 @@ int convierteHora(int hora){
 }
 
 /* Nada probado lo encontré en internet de como hacer un log file */
+
 void write_text_to_log_file(const std::string &text)
 {
 	std::ofstream log_file("log_file.txt", std::ios_base::out | std::ios_base::app);
@@ -298,11 +373,14 @@ void write_text_to_log_file(const std::string &text)
 
 void mandarPersona(Persona * persona)
 {
-	switch (rand() % 9)
+	int lala = rand() % 9;
+	//cout << lala << endl;
+	switch (lala)
 	{
 	case 0:
 		{
-			persona->setCongelamiento(caminos->dijkstra(v1, caminos->busquedaVertice(batman)));
+			
+			persona->setCongelamiento(distancias[0][1]);
 			Vertice<Persona *, Juego *> * vertice = new Vertice<Persona *, Juego *>(persona, batman);
 			Nodo<Vertice<Persona *, Juego *> *> * nodulon = new Nodo<Vertice<Persona *, Juego *> *>(vertice);
 			congelamiento->insertFront(nodulon);
@@ -310,7 +388,8 @@ void mandarPersona(Persona * persona)
 		break;
 	case 1:
 		{
-			persona->setCongelamiento(caminos->dijkstra(v1, caminos->busquedaVertice(superman)));
+			//cout << caminos->dijkstra(v1, caminos->busquedaVertice(superman)) << endl;
+			persona->setCongelamiento(distancias[0][2]);
 			Vertice<Persona *, Juego *> * vertice = new Vertice<Persona *, Juego *>(persona, superman);
 			Nodo<Vertice<Persona *, Juego *> *> * nodulon = new Nodo<Vertice<Persona *, Juego *> *>(vertice);
 			congelamiento->insertFront(nodulon);
@@ -318,7 +397,7 @@ void mandarPersona(Persona * persona)
 		break;
 	case 2:
 		{
-			persona->setCongelamiento(caminos->dijkstra(v1, caminos->busquedaVertice(boomerang)));
+			persona->setCongelamiento(distancias[0][3]);
 			Vertice<Persona *, Juego *> * vertice = new Vertice<Persona *, Juego *>(persona, boomerang);
 			Nodo<Vertice<Persona *, Juego *> *> * nodulon = new Nodo<Vertice<Persona *, Juego *> *>(vertice);
 			congelamiento->insertFront(nodulon);
@@ -326,7 +405,7 @@ void mandarPersona(Persona * persona)
 		break;
 	case 3:
 		{
-			persona->setCongelamiento(caminos->dijkstra(v1, caminos->busquedaVertice(medusa)));
+			persona->setCongelamiento(distancias[0][4]);
 			Vertice<Persona *, Juego *> * vertice = new Vertice<Persona *, Juego *>(persona, medusa);
 			Nodo<Vertice<Persona *, Juego *> *> * nodulon = new Nodo<Vertice<Persona *, Juego *> *>(vertice);
 			congelamiento->insertFront(nodulon);
@@ -334,7 +413,7 @@ void mandarPersona(Persona * persona)
 		break;
 	case 4:
 		{
-			persona->setCongelamiento(caminos->dijkstra(v1, caminos->busquedaVertice(splash)));
+			persona->setCongelamiento(distancias[0][5]);
 			Vertice<Persona *, Juego *> * vertice = new Vertice<Persona *, Juego *>(persona, splash);
 			Nodo<Vertice<Persona *, Juego *> *> * nodulon = new Nodo<Vertice<Persona *, Juego *> *>(vertice);
 			congelamiento->insertFront(nodulon);
@@ -342,7 +421,7 @@ void mandarPersona(Persona * persona)
 		break;
 	case 5:
 		{
-			persona->setCongelamiento(caminos->dijkstra(v1, caminos->busquedaVertice(kilauea)));
+			persona->setCongelamiento(distancias[0][6]);
 			Vertice<Persona *, Juego *> * vertice = new Vertice<Persona *, Juego *>(persona, kilauea);
 			Nodo<Vertice<Persona *, Juego *> *> * nodulon = new Nodo<Vertice<Persona *, Juego *> *>(vertice);
 			congelamiento->insertFront(nodulon);
@@ -350,7 +429,7 @@ void mandarPersona(Persona * persona)
 		break;
 	case 6:
 		{
-			persona->setCongelamiento(caminos->dijkstra(v1, caminos->busquedaVertice(huracan)));
+			persona->setCongelamiento(distancias[0][7]);
 			Vertice<Persona *, Juego *> * vertice = new Vertice<Persona *, Juego *>(persona, huracan);
 			Nodo<Vertice<Persona *, Juego *> *> * nodulon = new Nodo<Vertice<Persona *, Juego *> *>(vertice);
 			congelamiento->insertFront(nodulon);
@@ -358,7 +437,7 @@ void mandarPersona(Persona * persona)
 		break;
 	case 7:
 		{
-			persona->setCongelamiento(caminos->dijkstra(v1, caminos->busquedaVertice(goKart)));
+			persona->setCongelamiento(distancias[0][8]);
 			Vertice<Persona *, Juego *> * vertice = new Vertice<Persona *, Juego *>(persona, goKart);
 			Nodo<Vertice<Persona *, Juego *> *> * nodulon = new Nodo<Vertice<Persona *, Juego *> *>(vertice);
 			congelamiento->insertFront(nodulon);
@@ -366,7 +445,7 @@ void mandarPersona(Persona * persona)
 		break;
 	case 8:
 		{
-			persona->setCongelamiento(caminos->dijkstra(v1, caminos->busquedaVertice(vudu)));
+			persona->setCongelamiento(distancias[0][9]);
 			Vertice<Persona *, Juego *> * vertice = new Vertice<Persona *, Juego *>(persona, vudu);
 			Nodo<Vertice<Persona *, Juego *> *> * nodulon = new Nodo<Vertice<Persona *, Juego *> *>(vertice);
 			congelamiento->insertFront(nodulon);
@@ -380,14 +459,15 @@ void mandarPersona(Persona * persona)
 
 void mandarPersonaDependiendo(Persona * persona, Juego * j)
 {
-
-	switch (rand() % 9)
+	int lala = rand() % 9;
+	//cout << distancias[3][5] << endl;
+	switch (lala)
 	{
 	case 0:
 		{
 			if (j != batman)
 			{
-				persona->setCongelamiento(caminos->dijkstra(caminos->busquedaVertice(j),caminos->busquedaVertice(batman)));
+				persona->setCongelamiento(distancias[caminos->posicionDelNodo(caminos->busquedaVertice(j))][1]);
 				Vertice<Persona *, Juego *> * vertice = new Vertice<Persona *, Juego *>(persona, batman);
 				Nodo<Vertice<Persona *, Juego *> *> * nodulon = new Nodo<Vertice<Persona *, Juego *> *>(vertice);
 				congelamiento->insertFront(nodulon);
@@ -400,7 +480,7 @@ void mandarPersonaDependiendo(Persona * persona, Juego * j)
 		{
 			if (j != superman)
 			{
-				persona->setCongelamiento(caminos->dijkstra(caminos->busquedaVertice(j), caminos->busquedaVertice(superman)));
+				persona->setCongelamiento(distancias[caminos->posicionDelNodo(caminos->busquedaVertice(j))][2]);
 				Vertice<Persona *, Juego *> * vertice = new Vertice<Persona *, Juego *>(persona, superman);
 				Nodo<Vertice<Persona *, Juego *> *> * nodulon = new Nodo<Vertice<Persona *, Juego *> *>(vertice);
 				congelamiento->insertFront(nodulon);
@@ -413,7 +493,7 @@ void mandarPersonaDependiendo(Persona * persona, Juego * j)
 		{
 			if (j != boomerang)
 			{
-				persona->setCongelamiento(caminos->dijkstra(caminos->busquedaVertice(j), caminos->busquedaVertice(boomerang)));
+				persona->setCongelamiento(distancias[caminos->posicionDelNodo(caminos->busquedaVertice(j))][3]);
 				Vertice<Persona *, Juego *> * vertice = new Vertice<Persona *, Juego *>(persona, boomerang);
 				Nodo<Vertice<Persona *, Juego *> *> * nodulon = new Nodo<Vertice<Persona *, Juego *> *>(vertice);
 				congelamiento->insertFront(nodulon);
@@ -426,7 +506,7 @@ void mandarPersonaDependiendo(Persona * persona, Juego * j)
 		{
 			if (j != medusa)
 			{
-				persona->setCongelamiento(caminos->dijkstra(caminos->busquedaVertice(j), caminos->busquedaVertice(medusa)));
+				persona->setCongelamiento(distancias[caminos->posicionDelNodo(caminos->busquedaVertice(j))][4]);
 				Vertice<Persona *, Juego *> * vertice = new Vertice<Persona *, Juego *>(persona, medusa);
 				Nodo<Vertice<Persona *, Juego *> *> * nodulon = new Nodo<Vertice<Persona *, Juego *> *>(vertice);
 				congelamiento->insertFront(nodulon);
@@ -439,7 +519,7 @@ void mandarPersonaDependiendo(Persona * persona, Juego * j)
 		{
 			if (j != splash)
 			{
-				persona->setCongelamiento(caminos->dijkstra(caminos->busquedaVertice(j), caminos->busquedaVertice(splash)));
+				persona->setCongelamiento(distancias[caminos->posicionDelNodo(caminos->busquedaVertice(j))][5]);
 				Vertice<Persona *, Juego *> * vertice = new Vertice<Persona *, Juego *>(persona, splash);
 				Nodo<Vertice<Persona *, Juego *> *> * nodulon = new Nodo<Vertice<Persona *, Juego *> *>(vertice);
 				congelamiento->insertFront(nodulon);
@@ -452,7 +532,7 @@ void mandarPersonaDependiendo(Persona * persona, Juego * j)
 		{
 			if (j != kilauea)
 			{
-				persona->setCongelamiento(caminos->dijkstra(caminos->busquedaVertice(j), caminos->busquedaVertice(kilauea)));
+				persona->setCongelamiento(distancias[caminos->posicionDelNodo(caminos->busquedaVertice(j))][6]);
 				Vertice<Persona *, Juego *> * vertice = new Vertice<Persona *, Juego *>(persona, kilauea);
 				Nodo<Vertice<Persona *, Juego *> *> * nodulon = new Nodo<Vertice<Persona *, Juego *> *>(vertice);
 				congelamiento->insertFront(nodulon);
@@ -465,7 +545,7 @@ void mandarPersonaDependiendo(Persona * persona, Juego * j)
 		{
 			if (j != huracan)
 			{
-				persona->setCongelamiento(caminos->dijkstra(caminos->busquedaVertice(j), caminos->busquedaVertice(huracan)));
+				persona->setCongelamiento(distancias[caminos->posicionDelNodo(caminos->busquedaVertice(j))][7]);
 				Vertice<Persona *, Juego *> * vertice = new Vertice<Persona *, Juego *>(persona, huracan);
 				Nodo<Vertice<Persona *, Juego *> *> * nodulon = new Nodo<Vertice<Persona *, Juego *> *>(vertice);
 				congelamiento->insertFront(nodulon);
@@ -478,7 +558,7 @@ void mandarPersonaDependiendo(Persona * persona, Juego * j)
 		{
 			if (j != goKart)
 			{
-				persona->setCongelamiento(caminos->dijkstra(caminos->busquedaVertice(j), caminos->busquedaVertice(goKart)));
+				persona->setCongelamiento(distancias[caminos->posicionDelNodo(caminos->busquedaVertice(j))][8]);
 				Vertice<Persona *, Juego *> * vertice = new Vertice<Persona *, Juego *>(persona, goKart);
 				Nodo<Vertice<Persona *, Juego *> *> * nodulon = new Nodo<Vertice<Persona *, Juego *> *>(vertice);
 				congelamiento->insertFront(nodulon);
@@ -491,7 +571,7 @@ void mandarPersonaDependiendo(Persona * persona, Juego * j)
 		{
 			if (j != vudu)
 			{
-				persona->setCongelamiento(caminos->dijkstra(caminos->busquedaVertice(j), caminos->busquedaVertice(vudu)));
+				persona->setCongelamiento(distancias[caminos->posicionDelNodo(caminos->busquedaVertice(j))][9]);
 				Vertice<Persona *, Juego *> * vertice = new Vertice<Persona *, Juego *>(persona, vudu);
 				Nodo<Vertice<Persona *, Juego *> *> * nodulon = new Nodo<Vertice<Persona *, Juego *> *>(vertice);
 				congelamiento->insertFront(nodulon);
@@ -512,6 +592,7 @@ void salDelJuegoYHasEsto(int i)
 	{
 	case 0:
 		{
+			
 			if (!batman->getActivado())
 			{
 				while (!batman->getArriba()->empty())
