@@ -46,10 +46,10 @@ public:
 	Vertice<V, A> * elementAt(int);
 	void ordena();
 
-	/*método de dijkstra*/
+	/*mï¿½todo de dijkstra*/
 	void iniciar();
 	int posicionDelNodo(Vertice<V, A> *);
-	vector<int>  dijkstra(Vertice<V, A> *, Vertice<V, A> *);
+	vector<int>  dijkstra(Vertice<V, A> *);
 	//vector<int> dijkstra(Vertice<V, A> *);
 	void relajacion(int, int, Vertice<V, A> *, Vertice<V, A> *, int);
 	void imprimir(int);
@@ -76,7 +76,7 @@ template <typename V, typename A>
 std::ostream & operator <<(std::ostream & os, Grafo<V, A> & g)
 {
 
-	/* Imprimir los vértices */
+	/* Imprimir los vï¿½rtices */
 
 	Vertice<V, A> * temp = g.inicio;
 
@@ -336,7 +336,7 @@ void Grafo<V, A>::relajacion(int actual, int adyacencia, Vertice<V, A> * ac, Ver
 }
 
 template<class V, class A>
-vector<int>  Grafo<V, A>::dijkstra(Vertice<V, A> * i, Vertice<V, A> * d)
+vector<int>  Grafo<V, A>::dijkstra(Vertice<V, A> * i)
 {
 	//	cout << "Aqui funciona \n";
 	iniciar();
