@@ -46,7 +46,7 @@ public:
 	Vertice<V, A> * elementAt(int);
 	void ordena();
 
-	/*mÃ©todo de dijkstra*/
+	/*método de dijkstra*/
 	void iniciar();
 	int posicionDelNodo(Vertice<V, A> *);
 	vector<int>  dijkstra(Vertice<V, A> *, Vertice<V, A> *);
@@ -76,7 +76,7 @@ template <typename V, typename A>
 std::ostream & operator <<(std::ostream & os, Grafo<V, A> & g)
 {
 
-	/* Imprimir los vÃ©rtices */
+	/* Imprimir los vértices */
 
 	Vertice<V, A> * temp = g.inicio;
 

@@ -105,7 +105,7 @@ int main(int argc, const char * argv [])
 	caminos->insertarArista(v2, v6, 2); // batman a splash
 
 	//menu();
-	/* impresiÃ³n de prueba */
+	/* impresión de prueba */
 	//cout << *personaEspecial;
 
 	distancia1 = caminos->dijkstra(v1, v8);
@@ -246,7 +246,7 @@ int main(int argc, const char * argv [])
 		/* Este es el if en que cada 10 minutos llega la gente y los mete al camino dependiendo de donde les toque la proxima atraccion*/
 		if ((t%10) == 0)
 		{
-			/* ImpresiÃ³n hora */
+			/* Impresión hora */
 			cout << "Son las: " << t / 60 << ":";
 			if (t % 60 == 0)
 				cout << "00" << endl;
@@ -301,7 +301,7 @@ int main(int argc, const char * argv [])
 			
 
 		
-		}// cierre del if que pone los bots en una atracciÃ³n despuÃ©s de llegar al parque
+		}// cierre del if que pone los bots en una atracción después de llegar al parque
 
 
 		//cout << total << endl;
@@ -340,14 +340,14 @@ void menu(){
 	cout << "Ingresa tu nombre: " << endl;
 	string nombre;
 	getline(cin, nombre);
-	cout << "CuÃ¡l es tu hora de llegada? \nHint: \n1:05  = 0105\n14:39 = 1439" << endl;
+	cout << "Cuál es tu hora de llegada? \nHint: \n1:05  = 0105\n14:39 = 1439" << endl;
 	int horaLlegada;
 	cin >> horaLlegada;
 	cout << "Cuanto tiempo vas a permanecer en el parque? (horas)" << endl;
 	int tiempoPermanencia;
 	cin >> tiempoPermanencia;
 	tiempoPermanencia = tiempoPermanencia * 60;
-	cout << "CuÃ¡l es tu presupuesto?" << endl;
+	cout << "Cuál es tu presupuesto?" << endl;
 	int presupuesto;
 	cin >> presupuesto;
 	personaEspecial = new Persona(convierteHora(horaLlegada) + tiempoPermanencia, presupuesto, nombre);
@@ -363,7 +363,7 @@ int convierteHora(int hora){
 	return horaArreglada;
 }
 
-/* Nada probado lo encontrÃ© en internet de como hacer un log file */
+/* Nada probado lo encontré en internet de como hacer un log file */
 
 void write_text_to_log_file(const std::string &text)
 {

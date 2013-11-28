@@ -224,7 +224,8 @@ template<class N>
 void ListaEnlazada<N>::invierte(int num, ListaEnlazada<N> * lista)
 {
 
-	ListaEnlazada<int> * aux = new ListaEnlazada<int>()
+	ListaEnlazada<int> * aux = new ListaEnlazada<int>();
+	
 
 	for (int i = num - 1; i >= 0; i--)
 	{
