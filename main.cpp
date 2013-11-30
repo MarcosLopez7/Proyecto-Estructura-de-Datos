@@ -1,728 +1,83 @@
+//#include "Atraccion.h"
+//#include "Juego.h"
+#include "Parque.h"
+//#include "Grafo.h"
 #include <iostream>
-#include <ctime>
 #include <fstream>
-#include "Atraccion.h"
-#include "Juego.h"
-#include "Snack.h"
-#include "Grafo.h"
+
 
 void menu();
+void hora (int t);
 int convierteHora(int hora);
-void write_text_to_log_file(const std::string &text);
-void meterAJuego(int);
-void mandarPersona(Persona *);
-void mandarPersonaDependiendo(Persona *, Juego *);
-void salDelJuegoYHasEsto(int);
-
 Persona * personaEspecial;
-ListaEnlazada<Vertice<Persona *, Juego *> *> * congelamiento = new ListaEnlazada<Vertice<Persona *, Juego *> *>();
-Grafo<Atraccion *, int> * caminos = new Grafo<Atraccion *, int>();
-
-Atraccion * entrada = new Atraccion("Entrada");
-Juego * batman = new Juego("Batman", 5, 30);
-Juego * superman = new Juego("Superman", 2, 40);
-Juego * boomerang = new Juego("Boomerang", 8, 20);
-Juego * medusa = new Juego("Medusa", 5, 15);
-Juego * splash = new Juego("Splash", 10, 20);
-Juego * kilauea = new Juego("Kilauea", 3, 26);
-Juego * huracan = new Juego("Huracan", 8, 40);
-Juego * goKart = new Juego("Go Kart", 10, 10);
-Juego * vudu = new Juego("Vudu", 8, 30);
-Snack * snack = new Snack("Cafeteria");
-
-Vertice<Atraccion *, int> * v1 = new Vertice<Atraccion *, int>(entrada);
-Vertice<Atraccion *, int> * v2 = new Vertice<Atraccion *, int>(batman);
-Vertice<Atraccion *, int> * v3 = new Vertice<Atraccion *, int>(superman);
-Vertice<Atraccion *, int> * v4 = new Vertice<Atraccion *, int>(boomerang);
-Vertice<Atraccion *, int> * v5 = new Vertice<Atraccion *, int>(medusa);
-Vertice<Atraccion *, int> * v6 = new Vertice<Atraccion *, int>(splash);
-Vertice<Atraccion *, int> * v7 = new Vertice<Atraccion *, int>(kilauea);
-Vertice<Atraccion *, int> * v8 = new Vertice<Atraccion *, int>(huracan);
-Vertice<Atraccion *, int> * v9 = new Vertice<Atraccion *, int>(goKart);
-Vertice<Atraccion *, int> * v10 = new Vertice<Atraccion *, int>(vudu);
-Vertice<Atraccion *, int> * v11 = new Vertice<Atraccion *, int>(snack);
-
-vector<int> distancia1;
-vector<int> distancia2;
-vector<int> distancia3;
-vector<int> distancia4;
-vector<int> distancia5;
-vector<int> distancia6;
-vector<int> distancia7;
-vector<int> distancia8;
-vector<int> distancia9;
-vector<int> distancia10;
-vector<int> distancia11;
-
-vector<vector<int>> distancias;
+void write_text_to_log_file(const std::string &text);
 
 
 int main(int argc, const char * argv [])
 {
-
-	int total = 0;
-	//Cola<Persona *> * parque = new Cola<Persona *>();
-
-	caminos->insertarVertice(v1);
-	caminos->insertarVertice(v2);
-	caminos->insertarVertice(v3);
-	caminos->insertarVertice(v4);
-	caminos->insertarVertice(v5);
-	caminos->insertarVertice(v6);
-	caminos->insertarVertice(v7);
-	caminos->insertarVertice(v8);
-	caminos->insertarVertice(v9);
-	caminos->insertarVertice(v10);
-	caminos->insertarVertice(v11);
-
-	caminos->insertarArista(v1, v3, 2); // entrada a superman
-	caminos->insertarArista(v3, v1, 2); // superman a entrada
-	caminos->insertarArista(v3, v7, 8); // superman a kilauea
-	caminos->insertarArista(v7, v3, 8); // kilauea a superman
-	caminos->insertarArista(v3, v11, 7); // superman a snack
-	caminos->insertarArista(v11, v3, 7); // snack a superman
-	caminos->insertarArista(v3, v5, 5); // superman a medusa
-	caminos->insertarArista(v5, v3, 5); // medusa a superman
-	caminos->insertarArista(v7, v10, 2); // kilauea a Vudu
-	caminos->insertarArista(v10, v7, 2); // vudu a kilauea
-	caminos->insertarArista(v7, v4, 3); // kilauea a boomerang
-	caminos->insertarArista(v4, v7, 3); // boomerang a kilauea
-	caminos->insertarArista(v11, v9, 6); // snack a gokart
-	caminos->insertarArista(v9, v11, 6); // gokart a snack
-	caminos->insertarArista(v5, v8, 2); // medusa a huracan
-	caminos->insertarArista(v8, v5, 2); // huracan a medusa
-	caminos->insertarArista(v8, v9, 7); // huracan a gokart
-	caminos->insertarArista(v9, v8, 7); // gokart a huracan
-	caminos->insertarArista(v9, v4, 4); // gokart a boomerang
-	caminos->insertarArista(v4, v9, 4); // boomerang a gokart
-	caminos->insertarArista(v10, v4, 2); // vudu a boomerang
-	caminos->insertarArista(v4, v10, 2); // boomerang a vudu
-	caminos->insertarArista(v10, v6, 2); // vudu a splash
-	caminos->insertarArista(v6, v10, 2); // splash a vudu
-	caminos->insertarArista(v4, v6, 1); // boomerang a splash
-	caminos->insertarArista(v6, v4, 1); // splash a boomerang
-	caminos->insertarArista(v6, v2, 2); // splash a batman
-	caminos->insertarArista(v2, v6, 2); // batman a splash
-
-	//menu();
-	/* impresión de prueba */
-	//cout << *personaEspecial;
-
-	distancia1 = caminos->dijkstra(v1, v8);
-	distancia2 = caminos->dijkstra(v2, v8);
-	distancia3 = caminos->dijkstra(v3, v8);
-	distancia4 = caminos->dijkstra(v4, v8);
-	distancia5 = caminos->dijkstra(v5, v8);
-	distancia6 = caminos->dijkstra(v6, v8);
-	distancia7 = caminos->dijkstra(v7, v8);
-	distancia8 = caminos->dijkstra(v8, v8);
-	distancia9 = caminos->dijkstra(v9, v8);
-	distancia10 = caminos->dijkstra(v10, v8);
-	distancia11 = caminos->dijkstra(v11, v8);
-
-	/*for (int i = 0; i < distancia2.size(); i++)
-		cout << distancia2[i] << endl;*/
-
-	distancias.push_back(distancia1);
-	distancias.push_back(distancia2);
-	distancias.push_back(distancia3);
-	distancias.push_back(distancia4);
-	distancias.push_back(distancia5);
-	distancias.push_back(distancia6);
-	distancias.push_back(distancia7);
-	distancias.push_back(distancia8);
-	distancias.push_back(distancia9);
-	distancias.push_back(distancia10);
-	distancias.push_back(distancia11);
-
-	/*for (int i = 0; i < distancias.size(); i++)
+    Parque * parque = new Parque;
+    
+    parque->crearJuegos();
+    parque->crearGrapho();
+    
+    //menu();
+    /* impresiÃ³n de prueba */
+    //cout << *personaEspecial;
+    
+	for (int t = 600; t < 1200; t++)
 	{
-		for (int j = 0; j < distancias[i].size(); j++)
-		{
-			cout << distancias[i][j] << " ";
-		}
-		cout << endl;
-	}*/
-
-	srand((int) time(NULL));
-
-	for (int t = 600; t <= 1200; t++)
-	{
-	//	cout << distancia1[1] << endl;
-
-		cout << superman->getColaNomal()->size() << endl;
-		cout << superman->getColaVip()->size() << endl;
-	//	cout << congelamiento->size() << endl;
-
-		/* Este for es el que manda en lo que estan en camino en un juego los manda ya directo al juego*/
-		for (int i = 0; i < congelamiento->size(); i++)
-		{
-			congelamiento->elementAt(i)->getInfo()->getInfo()->setCongelamiento(congelamiento->elementAt(i)->getInfo()->getInfo()->getCongelamiento() - 1);
-			
-			if (batman == congelamiento->elementAt(i)->getInfo()->getInfo2())
-			{
-				
-				if (batman->transicion(congelamiento->elementAt(i)->getInfo()->getInfo()))
-				{
-				//	cout << "PRUEBA \n";
-					congelamiento->deleteAt(i);
-					i--;
-				}
-			}
-
-			if (superman == congelamiento->elementAt(i)->getInfo()->getInfo2())
-			{
-				if (superman->transicion(congelamiento->elementAt(i)->getInfo()->getInfo()))
-				{
-					congelamiento->deleteAt(i);
-					i--;
-				}
-			}
-
-			if (boomerang == congelamiento->elementAt(i)->getInfo()->getInfo2())
-			{
-				if (boomerang->transicion(congelamiento->elementAt(i)->getInfo()->getInfo()))
-				{
-					congelamiento->deleteAt(i);
-					i--;
-				}
-			}
-
-			if (medusa == congelamiento->elementAt(i)->getInfo()->getInfo2())
-			{
-				if (medusa->transicion(congelamiento->elementAt(i)->getInfo()->getInfo()))
-				{
-					congelamiento->deleteAt(i);
-					i--;
-				}
-			}
-
-			if (splash == congelamiento->elementAt(i)->getInfo()->getInfo2())
-			{
-				if (splash->transicion(congelamiento->elementAt(i)->getInfo()->getInfo()))
-				{
-					congelamiento->deleteAt(i);
-					i--;
-				}
-			}
-
-			if (kilauea == congelamiento->elementAt(i)->getInfo()->getInfo2())
-			{
-				if (kilauea->transicion(congelamiento->elementAt(i)->getInfo()->getInfo()))
-				{
-					congelamiento->deleteAt(i);
-					i--;
-				}
-			}
-
-			if (huracan == congelamiento->elementAt(i)->getInfo()->getInfo2())
-			{
-				if (huracan->transicion(congelamiento->elementAt(i)->getInfo()->getInfo()))
-				{
-					congelamiento->deleteAt(i);
-					i--;
-				}
-			}
-
-			if (goKart == congelamiento->elementAt(i)->getInfo()->getInfo2())
-			{
-				if (goKart->transicion(congelamiento->elementAt(i)->getInfo()->getInfo()))
-				{
-					congelamiento->deleteAt(i);
-					i--;
-				}
-			}
-
-			if (vudu == congelamiento->elementAt(i)->getInfo()->getInfo2())
-			{
-				if (vudu->transicion(congelamiento->elementAt(i)->getInfo()->getInfo()))
-				{
-					congelamiento->deleteAt(i);
-					i--;
-				}
-			}
-		}// ESTE ES EL FOR QUE REALMENTE MANDA LOS BOTS A SU POSICION
-
-		/* Este es el if en que cada 10 minutos llega la gente y los mete al camino dependiendo de donde les toque la proxima atraccion*/
-		if ((t%10) == 0)
-		{
-			/* Impresión hora */
-			cout << "Son las: " << t / 60 << ":";
-			if (t % 60 == 0)
-				cout << "00" << endl;
-			else
-				cout << t % 60 << endl;
-
-			if (t < 660)
-			{
-				int n = (rand() % 20);
-				//cout << n << endl;
-				total += n;
-				for (int i = 0; i < n; i++)
-				{
-					Persona * persona = new Persona(t);
-					mandarPersona(persona);
-				}
-			}
-			if (t >= 660 && t < 720)
-			{
-				int n = rand() % 25;
-				//cout << n << endl;
-				total += n;
-				for (int i = 0; i < n; i++)
-				{
-					Persona * persona = new Persona(t);
-					mandarPersona(persona);
-				}
-			}
-			if (t >= 720 && t < 840)
-			{
-				int n = rand() % 40;
-				//cout << n << endl;
-				total += n;
-				for (int i = 0; i < n; i++)
-				{
-					Persona * persona = new Persona(t);
-					mandarPersona(persona);
-				}
-			}
-			if (t >= 840 && t <= 960)
-			{
-				int n = rand() % 5;
-				//cout << n << endl;
-				total += n;
-				for (int i = 0; i < n; i++)
-				{
-					Persona * persona = new Persona(t);
-					mandarPersona(persona);
-				}
-			}
-
-			
-
-		
-		}// cierre del if que pone los bots en una atracción después de llegar al parque
-
-
-		//cout << total << endl;
-		/*Este for lo que hace es sacar las personas de los juegos */
-		
-		for (int i = 0; i < 9; i++) 
-		{
-			salDelJuegoYHasEsto(i);
-		}
-		
-
-	}
-
-	
-
-	//delete parque;
-	delete batman;
-	delete superman;
-	delete boomerang;
-	delete medusa;
-	delete splash;
-	delete kilauea;
-	delete entrada;
-	delete snack;
-	delete huracan;
-	delete goKart;
-	delete vudu;
-	delete caminos;
-
-	system("pause");
+        if (t%10 == 0){
+            hora(t);
+            parque->crearBots(t);
+        }
+        
+        parque->checarCongelamiento();
+        parque->moverFilas(t);
+        
+        }
+    
 	return 0;
 }
 
-void menu(){
-	cout << "Bienvenido a Six Flags! " << endl;
-	cout << "Ingresa tu nombre: " << endl;
-	string nombre;
-	getline(cin, nombre);
-	cout << "Cuál es tu hora de llegada? \nHint: \n1:05  = 0105\n14:39 = 1439" << endl;
-	int horaLlegada;
-	cin >> horaLlegada;
-	cout << "Cuanto tiempo vas a permanecer en el parque? (horas)" << endl;
-	int tiempoPermanencia;
-	cin >> tiempoPermanencia;
-	tiempoPermanencia = tiempoPermanencia * 60;
-	cout << "Cuál es tu presupuesto?" << endl;
-	int presupuesto;
-	cin >> presupuesto;
-	personaEspecial = new Persona(convierteHora(horaLlegada) + tiempoPermanencia, presupuesto, nombre);
+void menu (){
+    cout << "Bienvenido a Six Flags! " << endl;
+    cout << "Ingresa tu nombre: " << endl;
+    string nombre;
+    getline(cin,nombre);
+    cout << "CuÃ¡l es tu hora de llegada? \nHint: \n1:05  = 0105\n14:39 = 1439" << endl;
+    int horaLlegada;
+    cin >> horaLlegada;
+    cout << "Cuanto tiempo vas a permanecer en el parque? (horas)" << endl;
+    int tiempoPermanencia;
+    cin >> tiempoPermanencia;
+    tiempoPermanencia = tiempoPermanencia * 60;
+    cout << "CuÃ¡l es tu presupuesto?" << endl;
+    int presupuesto;
+    cin >> presupuesto;
+    personaEspecial = new Persona(convierteHora(horaLlegada) + tiempoPermanencia,presupuesto,nombre);
 }
 
 int convierteHora(int hora){
-	int horaArreglada;
-	horaArreglada = hora % 10;
-	hora = hora / 10;
-	horaArreglada = horaArreglada + (hora % 10) * 10;
-	hora = hora / 10;
-	horaArreglada = horaArreglada + hora * 60;
-	return horaArreglada;
+    int horaArreglada;
+    horaArreglada = hora%10;
+    hora = hora/10;
+    horaArreglada = horaArreglada + (hora%10)*10;
+    hora = hora/10;
+    horaArreglada = horaArreglada + hora*60;
+    return horaArreglada;
 }
 
-/* Nada probado lo encontré en internet de como hacer un log file */
-
-void write_text_to_log_file(const std::string &text)
-{
-	std::ofstream log_file("log_file.txt", std::ios_base::out | std::ios_base::app);
-	log_file << text << std::endl;
+void hora (int t){
+    cout << "Son las: " << t/60 << ":";
+    if (t%60 == 0)
+        cout << "00" << endl;
+    else
+        cout << t%60 << endl;
 }
 
-void mandarPersona(Persona * persona)
+/* Nada probado lo encontrÃ© en internet de como hacer un log file */
+void write_text_to_log_file( const std::string &text )
 {
-	int lala = rand() % 9;
-	//cout << lala << endl;
-	switch (lala)
-	{
-	case 0:
-		{
-			
-			persona->setCongelamiento(distancias[0][1]);
-			Vertice<Persona *, Juego *> * vertice = new Vertice<Persona *, Juego *>(persona, batman);
-			Nodo<Vertice<Persona *, Juego *> *> * nodulon = new Nodo<Vertice<Persona *, Juego *> *>(vertice);
-			congelamiento->insertFront(nodulon);
-		}
-		break;
-	case 1:
-		{
-			//cout << caminos->dijkstra(v1, caminos->busquedaVertice(superman)) << endl;
-			persona->setCongelamiento(distancias[0][2]);
-			Vertice<Persona *, Juego *> * vertice = new Vertice<Persona *, Juego *>(persona, superman);
-			Nodo<Vertice<Persona *, Juego *> *> * nodulon = new Nodo<Vertice<Persona *, Juego *> *>(vertice);
-			congelamiento->insertFront(nodulon);
-		}
-		break;
-	case 2:
-		{
-			persona->setCongelamiento(distancias[0][3]);
-			Vertice<Persona *, Juego *> * vertice = new Vertice<Persona *, Juego *>(persona, boomerang);
-			Nodo<Vertice<Persona *, Juego *> *> * nodulon = new Nodo<Vertice<Persona *, Juego *> *>(vertice);
-			congelamiento->insertFront(nodulon);
-		}
-		break;
-	case 3:
-		{
-			persona->setCongelamiento(distancias[0][4]);
-			Vertice<Persona *, Juego *> * vertice = new Vertice<Persona *, Juego *>(persona, medusa);
-			Nodo<Vertice<Persona *, Juego *> *> * nodulon = new Nodo<Vertice<Persona *, Juego *> *>(vertice);
-			congelamiento->insertFront(nodulon);
-		}
-		break;
-	case 4:
-		{
-			persona->setCongelamiento(distancias[0][5]);
-			Vertice<Persona *, Juego *> * vertice = new Vertice<Persona *, Juego *>(persona, splash);
-			Nodo<Vertice<Persona *, Juego *> *> * nodulon = new Nodo<Vertice<Persona *, Juego *> *>(vertice);
-			congelamiento->insertFront(nodulon);
-		}
-		break;
-	case 5:
-		{
-			persona->setCongelamiento(distancias[0][6]);
-			Vertice<Persona *, Juego *> * vertice = new Vertice<Persona *, Juego *>(persona, kilauea);
-			Nodo<Vertice<Persona *, Juego *> *> * nodulon = new Nodo<Vertice<Persona *, Juego *> *>(vertice);
-			congelamiento->insertFront(nodulon);
-		}
-		break;
-	case 6:
-		{
-			persona->setCongelamiento(distancias[0][7]);
-			Vertice<Persona *, Juego *> * vertice = new Vertice<Persona *, Juego *>(persona, huracan);
-			Nodo<Vertice<Persona *, Juego *> *> * nodulon = new Nodo<Vertice<Persona *, Juego *> *>(vertice);
-			congelamiento->insertFront(nodulon);
-		}
-		break;
-	case 7:
-		{
-			persona->setCongelamiento(distancias[0][8]);
-			Vertice<Persona *, Juego *> * vertice = new Vertice<Persona *, Juego *>(persona, goKart);
-			Nodo<Vertice<Persona *, Juego *> *> * nodulon = new Nodo<Vertice<Persona *, Juego *> *>(vertice);
-			congelamiento->insertFront(nodulon);
-		}
-		break;
-	case 8:
-		{
-			persona->setCongelamiento(distancias[0][9]);
-			Vertice<Persona *, Juego *> * vertice = new Vertice<Persona *, Juego *>(persona, vudu);
-			Nodo<Vertice<Persona *, Juego *> *> * nodulon = new Nodo<Vertice<Persona *, Juego *> *>(vertice);
-			congelamiento->insertFront(nodulon);
-		}
-		break;
-	default:
-		break;
-	}
-
-}
-
-void mandarPersonaDependiendo(Persona * persona, Juego * j)
-{
-	int lala = rand() % 9;
-	//cout << distancias[3][5] << endl;
-	switch (lala)
-	{
-	case 0:
-		{
-			if (j != batman)
-			{
-				persona->setCongelamiento(distancias[caminos->posicionDelNodo(caminos->busquedaVertice(j))][1]);
-				Vertice<Persona *, Juego *> * vertice = new Vertice<Persona *, Juego *>(persona, batman);
-				Nodo<Vertice<Persona *, Juego *> *> * nodulon = new Nodo<Vertice<Persona *, Juego *> *>(vertice);
-				congelamiento->insertFront(nodulon);
-			}
-			else
-				mandarPersonaDependiendo(persona, j);
-		}
-		break;
-	case 1:
-		{
-			if (j != superman)
-			{
-				persona->setCongelamiento(distancias[caminos->posicionDelNodo(caminos->busquedaVertice(j))][2]);
-				Vertice<Persona *, Juego *> * vertice = new Vertice<Persona *, Juego *>(persona, superman);
-				Nodo<Vertice<Persona *, Juego *> *> * nodulon = new Nodo<Vertice<Persona *, Juego *> *>(vertice);
-				congelamiento->insertFront(nodulon);
-			}
-			else
-				mandarPersonaDependiendo(persona, j);
-		}
-		break;
-	case 2:
-		{
-			if (j != boomerang)
-			{
-				persona->setCongelamiento(distancias[caminos->posicionDelNodo(caminos->busquedaVertice(j))][3]);
-				Vertice<Persona *, Juego *> * vertice = new Vertice<Persona *, Juego *>(persona, boomerang);
-				Nodo<Vertice<Persona *, Juego *> *> * nodulon = new Nodo<Vertice<Persona *, Juego *> *>(vertice);
-				congelamiento->insertFront(nodulon);
-			}
-			else
-				mandarPersonaDependiendo(persona, j);
-		}
-		break;
-	case 3:
-		{
-			if (j != medusa)
-			{
-				persona->setCongelamiento(distancias[caminos->posicionDelNodo(caminos->busquedaVertice(j))][4]);
-				Vertice<Persona *, Juego *> * vertice = new Vertice<Persona *, Juego *>(persona, medusa);
-				Nodo<Vertice<Persona *, Juego *> *> * nodulon = new Nodo<Vertice<Persona *, Juego *> *>(vertice);
-				congelamiento->insertFront(nodulon);
-			}
-			else
-				mandarPersonaDependiendo(persona, j);
-		}
-		break;
-	case 4:
-		{
-			if (j != splash)
-			{
-				persona->setCongelamiento(distancias[caminos->posicionDelNodo(caminos->busquedaVertice(j))][5]);
-				Vertice<Persona *, Juego *> * vertice = new Vertice<Persona *, Juego *>(persona, splash);
-				Nodo<Vertice<Persona *, Juego *> *> * nodulon = new Nodo<Vertice<Persona *, Juego *> *>(vertice);
-				congelamiento->insertFront(nodulon);
-			}
-			else
-				mandarPersonaDependiendo(persona, j);
-		}
-		break;
-	case 5:
-		{
-			if (j != kilauea)
-			{
-				persona->setCongelamiento(distancias[caminos->posicionDelNodo(caminos->busquedaVertice(j))][6]);
-				Vertice<Persona *, Juego *> * vertice = new Vertice<Persona *, Juego *>(persona, kilauea);
-				Nodo<Vertice<Persona *, Juego *> *> * nodulon = new Nodo<Vertice<Persona *, Juego *> *>(vertice);
-				congelamiento->insertFront(nodulon);
-			}
-			else
-				mandarPersonaDependiendo(persona, j);
-		}
-		break;
-	case 6:
-		{
-			if (j != huracan)
-			{
-				persona->setCongelamiento(distancias[caminos->posicionDelNodo(caminos->busquedaVertice(j))][7]);
-				Vertice<Persona *, Juego *> * vertice = new Vertice<Persona *, Juego *>(persona, huracan);
-				Nodo<Vertice<Persona *, Juego *> *> * nodulon = new Nodo<Vertice<Persona *, Juego *> *>(vertice);
-				congelamiento->insertFront(nodulon);
-			}
-			else
-				mandarPersonaDependiendo(persona, j);
-		}
-		break;
-	case 7:
-		{
-			if (j != goKart)
-			{
-				persona->setCongelamiento(distancias[caminos->posicionDelNodo(caminos->busquedaVertice(j))][8]);
-				Vertice<Persona *, Juego *> * vertice = new Vertice<Persona *, Juego *>(persona, goKart);
-				Nodo<Vertice<Persona *, Juego *> *> * nodulon = new Nodo<Vertice<Persona *, Juego *> *>(vertice);
-				congelamiento->insertFront(nodulon);
-			}
-			else
-				mandarPersonaDependiendo(persona, j);
-		}
-		break;
-	case 8:
-		{
-			if (j != vudu)
-			{
-				persona->setCongelamiento(distancias[caminos->posicionDelNodo(caminos->busquedaVertice(j))][9]);
-				Vertice<Persona *, Juego *> * vertice = new Vertice<Persona *, Juego *>(persona, vudu);
-				Nodo<Vertice<Persona *, Juego *> *> * nodulon = new Nodo<Vertice<Persona *, Juego *> *>(vertice);
-				congelamiento->insertFront(nodulon);
-			}
-			else
-				mandarPersonaDependiendo(persona, j);
-		}
-		break;
-	default:
-		break;
-	}
-
-}
-
-void salDelJuegoYHasEsto(int i)
-{
-	switch (i)
-	{
-	case 0:
-		{
-			
-			if (!batman->getActivado())
-			{
-				while (!batman->getArriba()->empty())
-				{
-					mandarPersonaDependiendo(batman->getArriba()->pop()->getInfo(), batman);
-				}
-				batman->moverColas();
-			}
-			else
-				batman->setTiempo(batman->getTiempo()-1);
-		}
-		break;
-	case 1:
-		{
-			if (!superman->getActivado())
-			{
-				while (!superman->getArriba()->empty())
-				{
-					mandarPersonaDependiendo(superman->getArriba()->pop()->getInfo(), superman);
-				}
-				superman->moverColas();
-			}
-			else
-				superman->setTiempo(batman->getTiempo() - 1);
-		}
-		break;
-	case 2:
-		{
-			if (!boomerang->getActivado())
-			{
-				while (!boomerang->getArriba()->empty())
-				{
-					mandarPersonaDependiendo(boomerang->getArriba()->pop()->getInfo(), boomerang);
-				}
-				boomerang->moverColas();
-			}
-			else
-				boomerang->setTiempo(boomerang->getTiempo() - 1);
-		}
-		break;
-	case 3:
-		{
-			if (!medusa->getActivado())
-			{
-				while (!medusa->getArriba()->empty())
-				{
-					mandarPersonaDependiendo(medusa->getArriba()->pop()->getInfo(), medusa);
-				}
-				medusa->moverColas();
-			}
-			else
-				medusa->setTiempo(medusa->getTiempo() - 1);
-		}
-		break;
-	case 4:
-		{
-			if (!splash->getActivado())
-			{
-				while (!splash->getArriba()->empty())
-				{
-					mandarPersonaDependiendo(splash->getArriba()->pop()->getInfo(), splash);
-				}
-				splash->moverColas();
-			}
-			else
-				splash->setTiempo(splash->getTiempo() - 1);
-		}
-		break;
-	case 5:
-		{
-			if (!kilauea->getActivado())
-			{
-				while (!kilauea->getArriba()->empty())
-				{
-					mandarPersonaDependiendo(kilauea->getArriba()->pop()->getInfo(), kilauea);
-				}
-				kilauea->moverColas();
-			}
-			else
-				kilauea->setTiempo(kilauea->getTiempo() - 1);
-		}
-		break;
-	case 6:
-		{
-			if (!huracan->getActivado())
-			{
-				while (!huracan->getArriba()->empty())
-				{
-					mandarPersonaDependiendo(huracan->getArriba()->pop()->getInfo(), huracan);
-				}
-				huracan->moverColas();
-			}
-			else
-				huracan->setTiempo(huracan->getTiempo() - 1);
-		}
-		break;
-	case 7:
-		{
-			if (!goKart->getActivado())
-			{
-				while (!goKart->getArriba()->empty())
-				{
-					mandarPersonaDependiendo(goKart->getArriba()->pop()->getInfo(), goKart);
-				}
-				goKart->moverColas();
-			}
-			else
-				goKart->setTiempo(goKart->getTiempo() - 1);
-		}
-		break;
-	case 8:
-		{
-			if (!vudu->getActivado())
-			{
-				while (!vudu->getArriba()->empty())
-				{
-					mandarPersonaDependiendo(vudu->getArriba()->pop()->getInfo(), vudu);
-				}
-				vudu->moverColas();
-			}
-			else
-				vudu->setTiempo(vudu->getTiempo() - 1);
-		}
-		break;
-	default:
-		break;
-	}
-}
-
-void meterAJuego(int t)
-{
-	
+    std::ofstream log_file("log_file.txt", std::ios_base::out | std::ios_base::app );
+    log_file << text << std::endl;
 }

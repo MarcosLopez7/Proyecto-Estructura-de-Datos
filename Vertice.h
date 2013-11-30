@@ -138,7 +138,7 @@ int Vertice<V, A>::numeroAristas(Vertice<V, A> * v)
 template <typename V, typename A>
 std::ostream & operator <<(std::ostream & os, Vertice<V, A> & v)
 {
-	os << "Vértice: " << v.info << std::endl;
+	os << "Vertice: " << v.info << std::endl;
 
 	/* Imprimir las aristas que salen de v */
 

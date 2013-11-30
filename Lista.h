@@ -1,3 +1,6 @@
+#ifndef __Proyecto_Final_Cubells__Lista__
+#define __Proyecto_Final_Cubells__Lista__
+
 #include "Nodo.h"
 
 template <class N> class ListaEnlazada;
@@ -25,13 +28,15 @@ public:
 	void insertFront(Nodo<N> * n);
 
 	Nodo<N> * deleteAt(int index);
+    Nodo<N> * deleteAtNodo(Nodo<N> * n);
 	Nodo<N> * deleteBack();
 	Nodo<N> * deleteFront();
 	Nodo<N> * elementAt(int);
 	void deleteAll();
 	void ordena(int, ListaEnlazada<N> *);
 	void invierte(int, ListaEnlazada<N> *);
-
+    
+    Nodo<N> * getInicio();
 	bool find(Nodo<N> * n);
 
 	int size();
@@ -97,11 +102,9 @@ template <class N>
 Nodo<N> * ListaEnlazada<N>::deleteAt(int index)
 {
 	Nodo<N> * temp = NULL;
-
 	if (!empty())
 	{
 		temp = inicio;
-
 		if (index == 0) {
 			inicio = inicio->getNext();
 		}
@@ -114,15 +117,33 @@ Nodo<N> * ListaEnlazada<N>::deleteAt(int index)
 				prev = temp;
 				temp = temp->getNext();
 			}
-
-			prev->setNext(temp->getNext());
+                prev->setNext(temp->getNext());
 		}
-
 		--tamano;
-
 	}
 
 	return temp;
+}
+
+template <class N>
+Nodo<N> * ListaEnlazada<N>::deleteAtNodo(Nodo<N> * n)
+{
+	bool encontrado = false;
+	Nodo<N> * temp = inicio;
+    int cont = 0;
+    
+	while (!encontrado && (temp != NULL)) {
+		if (temp == n)
+		{
+			encontrado = true;
+		}
+        else{
+            temp = temp->getNext();
+            cont++;
+        }
+	}
+    
+	return deleteAt(cont);
 }
 
 template <class N>
@@ -194,6 +215,11 @@ Nodo<N> * ListaEnlazada<N>::elementAt(int index)
 }
 
 template<class N>
+Nodo<N> * ListaEnlazada<N>::getInicio(){
+    return inicio;
+}
+
+template<class N>
 void ListaEnlazada<N>::ordena(int n, ListaEnlazada<N> * lista)
 {
 	//int p;
@@ -262,3 +288,5 @@ ostream & operator <<(ostream & os, ListaEnlazada<N> & le)
 
 	return os;
 }
+
+#endif /* defined(__Proyecto_Final_Cubells__Lista__) */

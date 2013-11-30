@@ -2,8 +2,8 @@
 //  Atraccion.h
 //  Proyecto Final Cubells
 //
-//  Created by CÈsar Mill·n on 11/11/13.
-//  Copyright (c) 2013 CÈsar Mill·n. All rights reserved.
+//  Created by C√©sar Mill√°n on 11/11/13.
+//  Copyright (c) 2013 C√©sar Mill√°n. All rights reserved.
 //
 
 #ifndef __Proyecto_Final_Cubells__Atraccion__
@@ -11,40 +11,50 @@
 
 #include <iostream>
 #include <string>
-#include "Persona.h"
-#include "Cola.h"
 #include "Pila.h"
+#include "Cola.h"
+//#include "Persona.h"
+//#include "Parque.h"
 
+class Persona;
+class Parque;
 
 class Atraccion{
 protected:
-	
-	std::string nombre;
-	Cola<Persona *> * colaDeTraslado;
-
+    int tiempoI;
+    int tiempoF;
+    Cola<Persona *> * colaGeneral;
+    std::string nombre;
+    Parque * parque;
+    
+    
 public:
-	Atraccion (std::string nombre) : nombre(nombre)
-	{
-		colaDeTraslado = new Cola<Persona *>();
-	}
-
-	std::string getNombre() const{
-		return nombre;
-	}
-
-	void setNombre(std::string nombre){
-		this->nombre = nombre;
-	}
-
-	Cola<Persona *> * getColaDeTraslado()
-	{
-		return colaDeTraslado;
-	}
-
-	void setColaDeTraslado(Cola<Persona *> * value)
-	{
-		colaDeTraslado = value;
-	}
+    Atraccion(Parque * parque, std::string nombre):tiempoF(610),tiempoI(0),nombre(nombre),parque(parque){
+    }
+    
+    void setTiempoI (int tiempo){
+        tiempoI = tiempo;
+    }
+    
+    int getTiempoI () const{
+        return tiempoI;
+    }
+    
+    void setTiempoF (int tiempo){
+        tiempoF=tiempo;
+    }
+    
+    int getTiempoF () const{
+        return tiempoF;
+    }
+    
+    std::string getNombre() const{
+        return nombre;
+    }
+    
+    void setNombre (std::string nombre){
+        this->nombre = nombre;
+    }
 };
 
 #endif /* defined(__Proyecto_Final_Cubells__Atraccion__) */
