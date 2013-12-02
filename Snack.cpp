@@ -1,9 +1,9 @@
 //
 //  Snack.cpp
-//  Proyecto Final Cubells
+//  Proyecto Final Estructura de Datos TC1018
 //
-//  Created by César Millán on 11/11/13.
-//  Copyright (c) 2013 César Millán. All rights reserved.
+//  Created by César Millán on 12/1/13.
+//  Copyright (c) 2013 César Millán & Marcos López. All rights reserved.
 //
 
 #include "Snack.h"
@@ -11,77 +11,102 @@
 #include "Persona.h"
 using namespace std;
 
-int Snack::menu (){
-    cout << "Elige una opción: " << endl;
-    cout << "1. Combo Hamburguesa \n  -80% hambre\n  $80"<<endl;
-    cout << "2. Combo HotDog \n  -60% hambre\n  $60"<<endl;
-    cout << "3. Combo Arrachera \n  -100% hambre\n  $120"<<endl;
-    cout << "4. Papas fritas \n  -30% hambre\n  $30"<<endl;
-    cout << "5. Refresco \n -5% hambre\n  $15" <<endl;
-    int opcion;
-    cin>>opcion;
-    return opcion;
-}
-
 void Snack::hambreDinero(Persona * per) {
-    int opcion = menu();
-    operacionesHambreDinero(per, opcion);
+    cout << endl<<endl<<"Bienvenido al Buffet" << endl;
+    cout << "El aproximado de comida es de 30 minutos" << endl;
+    if (per->getDinero() >= 100 ){
+        cout << "El costo es de $100 y te brindará 150 de energía" << endl << endl;
+        per->setHambre(Hambre(150, per));
+        per->setDinero(Fondos(100, per));
+        per->setCongelamiento(30);
+        per->setComiendo(true);
+        comiendo->insertBack(new Nodo<Persona *>(per));
+    }
+    else{
+        cout << "No te alcanza para comer" << endl;
+        parque->menuJuegos(per);
+    }
 }
 
 void Snack::hambreDineroRand(Persona * per) {
-    srand((int)time(NULL));
-    int opcion = rand() % 6;
-    operacionesHambreDinero(per, opcion);
-}
-
-void Snack::operacionesHambreDinero (Persona * per, int opcion){
-    switch (opcion) {
-        case 1:
-            per->setHambre(Hambre(80, per));
-            per->setDinero(Fondos(80, per));
-            break;
-        case 2:
-            per->setHambre(Hambre(60, per));
-            per->setDinero(Fondos(60, per));
-            break;
-        case 3:
-            per->setHambre(Hambre(100, per));
-            per->setDinero(Fondos(120, per));
-            break;
-        case 4:
-            per->setHambre(Hambre(30, per));
-            per->setDinero(Fondos(30, per));
-            break;
-        case 5:
-            per->setHambre(Hambre(5, per));
-            per->setDinero(Fondos(15, per));
-            break;
-        case 6:
-            break;
-        default:
-            cout << "Opcion invalida!" << endl;
-            break;
-    }
-}
-
-int Snack::Hambre (int nSatisfecho, Persona * per){
-    if (per->getHambre() + nSatisfecho >= 100) {
-        nSatisfecho = 100;
+    if (per->getDinero() >= 100 ){
+        per->setHambre(Hambre(150, per));
+        per->setDinero(Fondos(100, per));
+        per->setCongelamiento(30);
+        per->setComiendo(true);
+        comiendo->insertBack(new Nodo<Persona *>(per));
     }
     else{
-        nSatisfecho = per->getHambre() + nSatisfecho;
+        delete per;
     }
-    return nSatisfecho;
+
 }
 
-int Snack::Fondos (int costo, Persona * per){
-    if (per->getDinero() < costo){
-        throw "No tienes dinero suficiente";
+int Snack::Hambre(int nSatisfecho, Persona * per){
+	if (per->getHambre() + nSatisfecho >= 240) {
+		nSatisfecho = 240;
+	}
+	else{
+		nSatisfecho = per->getHambre() + nSatisfecho;
+	}
+	return nSatisfecho;
+}
+
+int Snack::Fondos(int costo, Persona * per){
+	if (per->getDinero() < costo){
+        return per->getDinero();
     }
-    else{
-        costo = per->getDinero() - costo;
-    }
+	else{
+		costo = per->getDinero() - costo;
+	}
     
-    return costo;
+	return costo;
 }
-          
+
+void Snack::checarPersonasComiendo(int actualTime)
+{
+	Nodo<Persona *> * temp = comiendo->getInicio();
+	while (temp != NULL)
+	{
+		if (temp->getInfo()->getCongelamiento() == 0)
+		{
+			if (temp->getInfo()->getNombre() == parque->getEspecial()->getNombre())
+			{
+                if (actualTime + (parque->recorrido(temp->getInfo(), 0)) >= temp->getInfo()->getSalida()){
+                    cout << "Ya te tienes que ir, bye!" << endl;
+                }
+                else {
+                    if (temp->getInfo()->getDinero() <= 15){
+                        cout << "Ya no tienes dinero" << endl;
+                        temp->getInfo()->setComiendo(false);
+                        parque->menuJuegos(temp->getInfo());
+                    }
+                    else{
+                        temp->getInfo()->setComiendo(false);
+                        parque->menuJuegos(temp->getInfo());
+                    }
+                }
+				comiendo->deleteAtNodo(temp);
+			}
+			else
+			{
+				if (actualTime + parque->recorrido(temp->getInfo(),0) >= temp->getInfo()->getSalida())
+				{
+                    delete temp->getInfo();
+				}
+				else
+				{
+					int Num = rand() % 9;
+                    temp->getInfo()->setComiendo(false);
+					parque->mandarPersona(temp->getInfo(), actualTime, Num);
+				}
+				comiendo->deleteAtNodo(temp);
+			}
+		}
+		else
+		{
+			temp->getInfo()->setCongelamiento(temp->getInfo()->getCongelamiento() - 1);
+		}
+		temp = temp->getNext();
+	}
+}

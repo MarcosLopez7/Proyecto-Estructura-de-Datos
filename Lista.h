@@ -1,5 +1,13 @@
-#ifndef __Proyecto_Final_Cubells__Lista__
-#define __Proyecto_Final_Cubells__Lista__
+//
+//  Lista.h
+//  Proyecto Final Estructura de Datos TC1018
+//
+//  Created by César Millán on 12/1/13.
+//  Copyright (c) 2013 César Millán & Marcos López. All rights reserved.
+//
+
+#ifndef Proyecto_Final_Estructura_de_Datos_TC1018_Lista_h
+#define Proyecto_Final_Estructura_de_Datos_TC1018_Lista_h
 
 #include "Nodo.h"
 
@@ -10,25 +18,25 @@ template <class N> ostream & operator <<(ostream & os, ListaEnlazada<N> & le);
 
 template <class N>
 class ListaEnlazada {
-
+    
 	Nodo<N> * inicio;
 	int tamano;
-
+    
 public:
 	ListaEnlazada()
 	{
 		inicio = NULL;
 		tamano = 0;
 	}
-
+    
 	~ListaEnlazada();
-
+    
 	void insertAt(int index, Nodo<N> * n);
 	void insertBack(Nodo<N> * n);
 	void insertFront(Nodo<N> * n);
-
+    
 	Nodo<N> * deleteAt(int index);
-    Nodo<N> * deleteAtNodo(Nodo<N> * n);
+	Nodo<N> * deleteAtNodo(Nodo<N> * n);
 	Nodo<N> * deleteBack();
 	Nodo<N> * deleteFront();
 	Nodo<N> * elementAt(int);
@@ -36,14 +44,14 @@ public:
 	void ordena(int, ListaEnlazada<N> *);
 	void invierte(int, ListaEnlazada<N> *);
     
-    Nodo<N> * getInicio();
+	Nodo<N> * getInicio();
 	bool find(Nodo<N> * n);
-
+    
 	int size();
 	bool empty();
-
+    
 	friend ostream & operator << <>(ostream & os, ListaEnlazada<N> & le);
-
+    
 };
 
 template <class N>
@@ -66,22 +74,22 @@ void ListaEnlazada<N>::insertAt(int index, Nodo<N> * n)
 			int pos = 0;
 			Nodo<N> * temp = inicio;
 			Nodo<N> * prev = NULL;
-
+            
 			while ((pos < index) && (temp != NULL)) {
 				++pos;
 				prev = temp;
 				temp = temp->getNext();
 			}
-
+            
 			n->setNext(temp);
 			prev->setNext(n);
-
+            
 		}
 	}
 	else {
 		inicio = n;
 	}
-
+    
 	tamano++;
 }
 
@@ -89,7 +97,7 @@ template <class N>
 void ListaEnlazada<N>::insertBack(Nodo<N> * n)
 {
 	insertAt(tamano, n);
-
+    
 }
 
 template <class N>
@@ -111,17 +119,17 @@ Nodo<N> * ListaEnlazada<N>::deleteAt(int index)
 		else {
 			int pos = 0;
 			Nodo<N> * prev = NULL;
-
+            
 			while ((pos < index) && (temp->getNext() != NULL)) {
 				++pos;
 				prev = temp;
 				temp = temp->getNext();
 			}
-                prev->setNext(temp->getNext());
+			prev->setNext(temp->getNext());
 		}
 		--tamano;
 	}
-
+    
 	return temp;
 }
 
@@ -130,17 +138,17 @@ Nodo<N> * ListaEnlazada<N>::deleteAtNodo(Nodo<N> * n)
 {
 	bool encontrado = false;
 	Nodo<N> * temp = inicio;
-    int cont = 0;
+	int cont = 0;
     
 	while (!encontrado && (temp != NULL)) {
 		if (temp == n)
 		{
 			encontrado = true;
 		}
-        else{
-            temp = temp->getNext();
-            cont++;
-        }
+		else{
+			temp = temp->getNext();
+			cont++;
+		}
 	}
     
 	return deleteAt(cont);
@@ -164,12 +172,12 @@ void ListaEnlazada<N>::deleteAll()
 	if (!empty())
 	{
 		Nodo<N> * temp = inicio;
-
+        
 		while (temp != NULL) {
 			inicio = temp->getNext();
 			delete temp;
 			temp = inicio;
-
+            
 		}
 	}
 }
@@ -180,35 +188,35 @@ bool ListaEnlazada<N>::find(Nodo<N> * n)
 {
 	bool encontrado = false;
 	Nodo<N> * temp = inicio;
-
+    
 	while (!encontrado && (temp != NULL)) {
 		if (temp->getInfo() == n->getInfo())
 		{
 			encontrado = true;
 		}
-
+        
 		temp = temp->getNext();
 	}
-
+    
 	return encontrado;
 }
 
 template<class N>
 Nodo<N> * ListaEnlazada<N>::elementAt(int index)
 {
-
+    
 	if (!empty())
 	{
 		int pos = 0;
 		Nodo<N> * temp = inicio;
-
+        
 		while (pos < index)
 		{
 			temp = temp->getNext();
 			pos++;
 		}
-
-
+        
+        
 		return temp;
 	}
 	return NULL;
@@ -216,13 +224,12 @@ Nodo<N> * ListaEnlazada<N>::elementAt(int index)
 
 template<class N>
 Nodo<N> * ListaEnlazada<N>::getInicio(){
-    return inicio;
+	return inicio;
 }
 
 template<class N>
 void ListaEnlazada<N>::ordena(int n, ListaEnlazada<N> * lista)
 {
-	//int p;
 	N temp;
 	for (int i = 0; i < n; i++)
 	{
@@ -230,36 +237,28 @@ void ListaEnlazada<N>::ordena(int n, ListaEnlazada<N> * lista)
 		{
 			if (lista->elementAt(j - 1)->getInfo() > lista->elementAt(j)->getInfo())
 			{
-				//cin >> p;
 				temp = lista->elementAt(j - 1)->getInfo();
-				//cout << "temp : " << lista->elementAt(j-1)->getInfo() << "en j: ";
 				lista->elementAt(j - 1)->setInfo(lista->elementAt(j)->getInfo());
 				lista->elementAt(j)->setInfo(temp);
-				//cout << j << "  " << lista->elementAt(j)->getInfo() << endl;
 			}
 		}
-
 	}
-
-
-	//cout << (*lista);
-
 }
 
 template<class N>
 void ListaEnlazada<N>::invierte(int num, ListaEnlazada<N> * lista)
 {
-
+    
 	ListaEnlazada<int> * aux = new ListaEnlazada<int>();
-	
-
+    
+    
 	for (int i = num - 1; i >= 0; i--)
 	{
 		aux->insertBack(lista->elementAt(i));
 	}
-
+    
 	cout << (*aux);
-
+    
 }
 
 template <class N>
@@ -279,14 +278,15 @@ template <typename N>
 ostream & operator <<(ostream & os, ListaEnlazada<N> & le)
 {
 	Nodo<N> * temp = le.inicio;
-
+    
 	while (temp != NULL)
 	{
 		os << *temp << endl;
 		temp = temp->getNext();
 	}
-
+    
 	return os;
 }
 
-#endif /* defined(__Proyecto_Final_Cubells__Lista__) */
+
+#endif

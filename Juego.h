@@ -1,67 +1,66 @@
 //
 //  Juego.h
-//  Proyecto Final Cubells
+//  Proyecto Final Estructura de Datos TC1018
 //
-//  Created by César Millán on 11/11/13.
-//  Copyright (c) 2013 César Millán. All rights reserved.
+//  Created by César Millán on 12/1/13.
+//  Copyright (c) 2013 César Millán & Marcos López. All rights reserved.
 //
 
-#ifndef __Proyecto_Final_Cubells__Juego__
-#define __Proyecto_Final_Cubells__Juego__
+#ifndef __Proyecto_Final_Estructura_de_Datos_TC1018__Juego__
+#define __Proyecto_Final_Estructura_de_Datos_TC1018__Juego__
 
 #include <iostream>
 #include "Atraccion.h"
 
-//class Parque;
-//class Persona;
-
-class Juego:public Atraccion{
-    Cola<Persona * > * colaVip;
-    Cola<Persona * > * colaNormal;
-    Pila<Persona * > * arriba;
-    int capacidad;
-    int duracion;
-    int esperaVip;
-    int esperaNormal;
-    int tiempo;
-    bool activado;
+class Juego : public Atraccion{
+	Cola<Persona * > * colaVip;
+	Cola<Persona * > * colaNormal;
+	Pila<Persona * > * arriba;
+	int capacidad;
+	int duracion;
+    int capacidadVip;
+	int esperaVip;
+	int esperaNormal;
+	int tiempo;
+	bool activado;
     
-    Persona * SalColaVip ();
-    Persona * SalColaNormal();
-    void EntraJuego(Persona * per);
-    Persona * SalJuego ();
-    void calcularTiempo();
-
+	Persona * SalColaVip();
+	Persona * SalColaNormal();
+	void EntraJuego(Persona * per);
+	Persona * SalJuego();
     
-    Cola<Persona *> * getColaVip () const{
-        return colaVip;
-    }
-    Cola<Persona *> * getColaNomal() const{
-        return colaNormal;
-    }
-    Pila<Persona *> * getArriba () const{
-        return arriba;
-    }
+
 public:
     
-    Juego (Parque * parque,int duracion,int capacidad, std::string nombre);
-    void EntraColaVip (Persona * per);
-    void EntraColaNormal (Persona * per);
-    void moverColas (int actualTime);
+	Juego(Parque * parque, int duracion, int capacidad, std::string nombre);
+    ~Juego();
+	void EntraColaVip(Persona * per);
+	void EntraColaNormal(Persona * per);
+	void moverColas(int actualTime);
+	void hambrear();
+    void calcularTiempo();
     
-    bool getActivado();
-    void setActivado(bool a);
-    int getTiempo();
-    void setTiempo(int t);
     
-    int getEsperaNormal(){
-        return esperaNormal;
-    }
-    int getEsperaVip(){
-        return esperaVip;
-    }
+	bool getActivado();
+	void setActivado(bool a);
+	int getTiempo();
+	void setTiempo(int t);
+    
+	int getEsperaNormal(){
+		return esperaNormal;
+	}
+	int getEsperaVip(){
+		return esperaVip;
+	}
+    Cola<Persona *> * getColaVip() const{
+		return colaVip;
+	}
+	Cola<Persona *> * getColaNomal() const{
+		return colaNormal;
+	}
+	Pila<Persona *> * getArriba() const{
+		return arriba;
+	}
 };
 
-
-
-#endif /* defined(__Proyecto_Final_Cubells__Juego__) */
+#endif /* defined(__Proyecto_Final_Estructura_de_Datos_TC1018__Juego__) */
